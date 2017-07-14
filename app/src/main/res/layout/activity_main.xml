@@ -321,6 +321,9 @@
             android:layout_width="1960dp"
             android:layout_height="240dp">
 
+            <!-- ************************************************* -->
+            <!-- * 下の白鍵                                        -->
+            <!-- ************************************************* -->
             <ImageButton
                 android:id="@+id/imageButtonLowerC2"
                 android:layout_width="40dp"
@@ -581,6 +584,212 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toRightOf="@+id/imageButtonLowerB5" />
 
+            <!-- ************************************************* -->
+            <!-- * 下の黒鍵                                        -->
+            <!-- ************************************************* -->
+            <ImageButton
+                android:id="@+id/imageButtonLowerCS2"
+                android:layout_width="29dp"
+                android:layout_height="66dp"
+                android:background="@drawable/keyboard_cs_selector"
+                android:scaleType="fitXY"
+                app:layout_constraintTop_toTopOf="@+id/imageButtonLowerC2"
+                app:layout_constraintLeft_toLeftOf="@+id/imageButtonLowerC2"
+                android:layout_marginLeft="22dp"/>
+
+            <ImageButton
+                android:id="@+id/imageButtonLowerDS2"
+                android:layout_width="29dp"
+                android:layout_height="66dp"
+                android:background="@drawable/keyboard_ds_selector"
+                android:scaleType="fitXY"
+                app:layout_constraintTop_toTopOf="@+id/imageButtonLowerC2"
+                app:layout_constraintLeft_toLeftOf="@+id/imageButtonLowerC2"
+                android:layout_marginLeft="69dp"/>
+
+            <ImageButton
+                android:id="@+id/imageButtonLowerFS2"
+                android:layout_width="29dp"
+                android:layout_height="66dp"
+                android:background="@drawable/keyboard_fs_selector"
+                android:scaleType="fitXY"
+                app:layout_constraintTop_toTopOf="@+id/imageButtonLowerC2"
+                app:layout_constraintLeft_toLeftOf="@+id/imageButtonLowerC2"
+                android:layout_marginLeft="140dp"/>
+
+            <ImageButton
+                android:id="@+id/imageButtonLowerGS2"
+                android:layout_width="29dp"
+                android:layout_height="66dp"
+                android:background="@drawable/keyboard_gs_selector"
+                android:scaleType="fitXY"
+                app:layout_constraintTop_toTopOf="@+id/imageButtonLowerC2"
+                app:layout_constraintLeft_toLeftOf="@+id/imageButtonLowerC2"
+                android:layout_marginLeft="186dp"/>
+
+            <ImageButton
+                android:id="@+id/imageButtonLowerAS2"
+                android:layout_width="29dp"
+                android:layout_height="66dp"
+                android:background="@drawable/keyboard_as_selector"
+                android:scaleType="fitXY"
+                app:layout_constraintTop_toTopOf="@+id/imageButtonLowerC2"
+                app:layout_constraintLeft_toLeftOf="@+id/imageButtonLowerC2"
+                android:layout_marginLeft="230dp"/>
+
+            <ImageButton
+                android:id="@+id/imageButtonLowerCS3"
+                android:layout_width="29dp"
+                android:layout_height="66dp"
+                android:background="@drawable/keyboard_cs_selector"
+                android:scaleType="fitXY"
+                app:layout_constraintTop_toTopOf="@+id/imageButtonLowerC3"
+                app:layout_constraintLeft_toLeftOf="@+id/imageButtonLowerC3"
+                android:layout_marginLeft="22dp"/>
+
+            <ImageButton
+                android:id="@+id/imageButtonLowerDS3"
+                android:layout_width="29dp"
+                android:layout_height="66dp"
+                android:background="@drawable/keyboard_ds_selector"
+                android:scaleType="fitXY"
+                app:layout_constraintTop_toTopOf="@+id/imageButtonLowerC3"
+                app:layout_constraintLeft_toLeftOf="@+id/imageButtonLowerC3"
+                android:layout_marginLeft="69dp"/>
+
+            <ImageButton
+                android:id="@+id/imageButtonLowerFS3"
+                android:layout_width="29dp"
+                android:layout_height="66dp"
+                android:background="@drawable/keyboard_fs_selector"
+                android:scaleType="fitXY"
+                app:layout_constraintTop_toTopOf="@+id/imageButtonLowerC3"
+                app:layout_constraintLeft_toLeftOf="@+id/imageButtonLowerC3"
+                android:layout_marginLeft="140dp"/>
+
+            <ImageButton
+                android:id="@+id/imageButtonLowerGS3"
+                android:layout_width="29dp"
+                android:layout_height="66dp"
+                android:background="@drawable/keyboard_gs_selector"
+                android:scaleType="fitXY"
+                app:layout_constraintTop_toTopOf="@+id/imageButtonLowerC3"
+                app:layout_constraintLeft_toLeftOf="@+id/imageButtonLowerC3"
+                android:layout_marginLeft="186dp"/>
+
+            <ImageButton
+                android:id="@+id/imageButtonLowerAS3"
+                android:layout_width="29dp"
+                android:layout_height="66dp"
+                android:background="@drawable/keyboard_as_selector"
+                android:scaleType="fitXY"
+                app:layout_constraintTop_toTopOf="@+id/imageButtonLowerC3"
+                app:layout_constraintLeft_toLeftOf="@+id/imageButtonLowerC3"
+                android:layout_marginLeft="230dp"/>
+
+            <ImageButton
+                android:id="@+id/imageButtonLowerCS4"
+                android:layout_width="29dp"
+                android:layout_height="66dp"
+                android:background="@drawable/keyboard_cs_selector"
+                android:scaleType="fitXY"
+                app:layout_constraintTop_toTopOf="@+id/imageButtonLowerC4"
+                app:layout_constraintLeft_toLeftOf="@+id/imageButtonLowerC4"
+                android:layout_marginLeft="22dp"/>
+
+            <ImageButton
+                android:id="@+id/imageButtonLowerDS4"
+                android:layout_width="29dp"
+                android:layout_height="66dp"
+                android:background="@drawable/keyboard_ds_selector"
+                android:scaleType="fitXY"
+                app:layout_constraintTop_toTopOf="@+id/imageButtonLowerC4"
+                app:layout_constraintLeft_toLeftOf="@+id/imageButtonLowerC4"
+                android:layout_marginLeft="69dp"/>
+
+            <ImageButton
+                android:id="@+id/imageButtonLowerFS4"
+                android:layout_width="29dp"
+                android:layout_height="66dp"
+                android:background="@drawable/keyboard_fs_selector"
+                android:scaleType="fitXY"
+                app:layout_constraintTop_toTopOf="@+id/imageButtonLowerC4"
+                app:layout_constraintLeft_toLeftOf="@+id/imageButtonLowerC4"
+                android:layout_marginLeft="140dp"/>
+
+            <ImageButton
+                android:id="@+id/imageButtonLowerGS4"
+                android:layout_width="29dp"
+                android:layout_height="66dp"
+                android:background="@drawable/keyboard_gs_selector"
+                android:scaleType="fitXY"
+                app:layout_constraintTop_toTopOf="@+id/imageButtonLowerC4"
+                app:layout_constraintLeft_toLeftOf="@+id/imageButtonLowerC4"
+                android:layout_marginLeft="186dp"/>
+
+            <ImageButton
+                android:id="@+id/imageButtonLowerAS4"
+                android:layout_width="29dp"
+                android:layout_height="66dp"
+                android:background="@drawable/keyboard_as_selector"
+                android:scaleType="fitXY"
+                app:layout_constraintTop_toTopOf="@+id/imageButtonLowerC4"
+                app:layout_constraintLeft_toLeftOf="@+id/imageButtonLowerC4"
+                android:layout_marginLeft="230dp"/>
+
+            <ImageButton
+                android:id="@+id/imageButtonLowerCS5"
+                android:layout_width="29dp"
+                android:layout_height="66dp"
+                android:background="@drawable/keyboard_cs_selector"
+                android:scaleType="fitXY"
+                app:layout_constraintTop_toTopOf="@+id/imageButtonLowerC5"
+                app:layout_constraintLeft_toLeftOf="@+id/imageButtonLowerC5"
+                android:layout_marginLeft="22dp"/>
+
+            <ImageButton
+                android:id="@+id/imageButtonLowerDS5"
+                android:layout_width="29dp"
+                android:layout_height="66dp"
+                android:background="@drawable/keyboard_ds_selector"
+                android:scaleType="fitXY"
+                app:layout_constraintTop_toTopOf="@+id/imageButtonLowerC5"
+                app:layout_constraintLeft_toLeftOf="@+id/imageButtonLowerC5"
+                android:layout_marginLeft="69dp"/>
+
+            <ImageButton
+                android:id="@+id/imageButtonLowerFS5"
+                android:layout_width="29dp"
+                android:layout_height="66dp"
+                android:background="@drawable/keyboard_fs_selector"
+                android:scaleType="fitXY"
+                app:layout_constraintTop_toTopOf="@+id/imageButtonLowerC5"
+                app:layout_constraintLeft_toLeftOf="@+id/imageButtonLowerC5"
+                android:layout_marginLeft="140dp"/>
+
+            <ImageButton
+                android:id="@+id/imageButtonLowerGS5"
+                android:layout_width="29dp"
+                android:layout_height="66dp"
+                android:background="@drawable/keyboard_gs_selector"
+                android:scaleType="fitXY"
+                app:layout_constraintTop_toTopOf="@+id/imageButtonLowerC5"
+                app:layout_constraintLeft_toLeftOf="@+id/imageButtonLowerC5"
+                android:layout_marginLeft="186dp"/>
+
+            <ImageButton
+                android:id="@+id/imageButtonLowerAS5"
+                android:layout_width="29dp"
+                android:layout_height="66dp"
+                android:background="@drawable/keyboard_as_selector"
+                android:scaleType="fitXY"
+                app:layout_constraintTop_toTopOf="@+id/imageButtonLowerC5"
+                app:layout_constraintLeft_toLeftOf="@+id/imageButtonLowerC5"
+                android:layout_marginLeft="230dp"/>
+
+            <!-- ************************************************* -->
+            <!-- * 上の白鍵                                        -->
+            <!-- ************************************************* -->
             <ImageButton
                 android:id="@+id/imageButtonUpperC3"
                 android:layout_width="40dp"
@@ -840,6 +1049,209 @@
                 android:scaleType="fitXY"
                 app:layout_constraintBottom_toBottomOf="@+id/imageButtonUpperB6"
                 app:layout_constraintLeft_toRightOf="@+id/imageButtonUpperB6" />
+
+            <!-- ************************************************* -->
+            <!-- * 上の黒鍵                                        -->
+            <!-- ************************************************* -->
+            <ImageButton
+                android:id="@+id/imageButtonUpperCS3"
+                android:layout_width="29dp"
+                android:layout_height="66dp"
+                android:background="@drawable/keyboard_cs_selector"
+                android:scaleType="fitXY"
+                app:layout_constraintTop_toTopOf="@+id/imageButtonUpperC3"
+                app:layout_constraintLeft_toLeftOf="@+id/imageButtonUpperC3"
+                android:layout_marginLeft="22dp"/>
+
+            <ImageButton
+                android:id="@+id/imageButtonUpperDS3"
+                android:layout_width="29dp"
+                android:layout_height="66dp"
+                android:background="@drawable/keyboard_ds_selector"
+                android:scaleType="fitXY"
+                app:layout_constraintTop_toTopOf="@+id/imageButtonUpperC3"
+                app:layout_constraintLeft_toLeftOf="@+id/imageButtonUpperC3"
+                android:layout_marginLeft="69dp"/>
+
+            <ImageButton
+                android:id="@+id/imageButtonUpperFS3"
+                android:layout_width="29dp"
+                android:layout_height="66dp"
+                android:background="@drawable/keyboard_fs_selector"
+                android:scaleType="fitXY"
+                app:layout_constraintTop_toTopOf="@+id/imageButtonUpperC3"
+                app:layout_constraintLeft_toLeftOf="@+id/imageButtonUpperC3"
+                android:layout_marginLeft="140dp"/>
+
+            <ImageButton
+                android:id="@+id/imageButtonUpperGS3"
+                android:layout_width="29dp"
+                android:layout_height="66dp"
+                android:background="@drawable/keyboard_gs_selector"
+                android:scaleType="fitXY"
+                app:layout_constraintTop_toTopOf="@+id/imageButtonUpperC3"
+                app:layout_constraintLeft_toLeftOf="@+id/imageButtonUpperC3"
+                android:layout_marginLeft="186dp"/>
+
+            <ImageButton
+                android:id="@+id/imageButtonUpperAS3"
+                android:layout_width="29dp"
+                android:layout_height="66dp"
+                android:background="@drawable/keyboard_as_selector"
+                android:scaleType="fitXY"
+                app:layout_constraintTop_toTopOf="@+id/imageButtonUpperC3"
+                app:layout_constraintLeft_toLeftOf="@+id/imageButtonUpperC3"
+                android:layout_marginLeft="230dp"/>
+
+            <ImageButton
+                android:id="@+id/imageButtonUpperCS4"
+                android:layout_width="29dp"
+                android:layout_height="66dp"
+                android:background="@drawable/keyboard_cs_selector"
+                android:scaleType="fitXY"
+                app:layout_constraintTop_toTopOf="@+id/imageButtonUpperC4"
+                app:layout_constraintLeft_toLeftOf="@+id/imageButtonUpperC4"
+                android:layout_marginLeft="22dp"/>
+
+            <ImageButton
+                android:id="@+id/imageButtonUpperDS4"
+                android:layout_width="29dp"
+                android:layout_height="66dp"
+                android:background="@drawable/keyboard_ds_selector"
+                android:scaleType="fitXY"
+                app:layout_constraintTop_toTopOf="@+id/imageButtonUpperC4"
+                app:layout_constraintLeft_toLeftOf="@+id/imageButtonUpperC4"
+                android:layout_marginLeft="69dp"/>
+
+            <ImageButton
+                android:id="@+id/imageButtonUpperFS4"
+                android:layout_width="29dp"
+                android:layout_height="66dp"
+                android:background="@drawable/keyboard_fs_selector"
+                android:scaleType="fitXY"
+                app:layout_constraintTop_toTopOf="@+id/imageButtonUpperC4"
+                app:layout_constraintLeft_toLeftOf="@+id/imageButtonUpperC4"
+                android:layout_marginLeft="140dp"/>
+
+            <ImageButton
+                android:id="@+id/imageButtonUpperGS4"
+                android:layout_width="29dp"
+                android:layout_height="66dp"
+                android:background="@drawable/keyboard_gs_selector"
+                android:scaleType="fitXY"
+                app:layout_constraintTop_toTopOf="@+id/imageButtonUpperC4"
+                app:layout_constraintLeft_toLeftOf="@+id/imageButtonUpperC4"
+                android:layout_marginLeft="186dp"/>
+
+            <ImageButton
+                android:id="@+id/imageButtonUpperAS4"
+                android:layout_width="29dp"
+                android:layout_height="66dp"
+                android:background="@drawable/keyboard_as_selector"
+                android:scaleType="fitXY"
+                app:layout_constraintTop_toTopOf="@+id/imageButtonUpperC4"
+                app:layout_constraintLeft_toLeftOf="@+id/imageButtonUpperC4"
+                android:layout_marginLeft="230dp"/>
+
+            <ImageButton
+                android:id="@+id/imageButtonUpperCS5"
+                android:layout_width="29dp"
+                android:layout_height="66dp"
+                android:background="@drawable/keyboard_cs_selector"
+                android:scaleType="fitXY"
+                app:layout_constraintTop_toTopOf="@+id/imageButtonUpperC5"
+                app:layout_constraintLeft_toLeftOf="@+id/imageButtonUpperC5"
+                android:layout_marginLeft="22dp"/>
+
+            <ImageButton
+                android:id="@+id/imageButtonUpperDS5"
+                android:layout_width="29dp"
+                android:layout_height="66dp"
+                android:background="@drawable/keyboard_ds_selector"
+                android:scaleType="fitXY"
+                app:layout_constraintTop_toTopOf="@+id/imageButtonUpperC5"
+                app:layout_constraintLeft_toLeftOf="@+id/imageButtonUpperC5"
+                android:layout_marginLeft="69dp"/>
+
+            <ImageButton
+                android:id="@+id/imageButtonUpperFS5"
+                android:layout_width="29dp"
+                android:layout_height="66dp"
+                android:background="@drawable/keyboard_fs_selector"
+                android:scaleType="fitXY"
+                app:layout_constraintTop_toTopOf="@+id/imageButtonUpperC5"
+                app:layout_constraintLeft_toLeftOf="@+id/imageButtonUpperC5"
+                android:layout_marginLeft="140dp"/>
+
+            <ImageButton
+                android:id="@+id/imageButtonUpperGS5"
+                android:layout_width="29dp"
+                android:layout_height="66dp"
+                android:background="@drawable/keyboard_gs_selector"
+                android:scaleType="fitXY"
+                app:layout_constraintTop_toTopOf="@+id/imageButtonUpperC5"
+                app:layout_constraintLeft_toLeftOf="@+id/imageButtonUpperC5"
+                android:layout_marginLeft="186dp"/>
+
+            <ImageButton
+                android:id="@+id/imageButtonUpperAS5"
+                android:layout_width="29dp"
+                android:layout_height="66dp"
+                android:background="@drawable/keyboard_as_selector"
+                android:scaleType="fitXY"
+                app:layout_constraintTop_toTopOf="@+id/imageButtonUpperC5"
+                app:layout_constraintLeft_toLeftOf="@+id/imageButtonUpperC5"
+                android:layout_marginLeft="230dp"/>
+
+            <ImageButton
+                android:id="@+id/imageButtonUpperCS6"
+                android:layout_width="29dp"
+                android:layout_height="66dp"
+                android:background="@drawable/keyboard_cs_selector"
+                android:scaleType="fitXY"
+                app:layout_constraintTop_toTopOf="@+id/imageButtonUpperC6"
+                app:layout_constraintLeft_toLeftOf="@+id/imageButtonUpperC6"
+                android:layout_marginLeft="22dp"/>
+
+            <ImageButton
+                android:id="@+id/imageButtonUpperDS6"
+                android:layout_width="29dp"
+                android:layout_height="66dp"
+                android:background="@drawable/keyboard_ds_selector"
+                android:scaleType="fitXY"
+                app:layout_constraintTop_toTopOf="@+id/imageButtonUpperC6"
+                app:layout_constraintLeft_toLeftOf="@+id/imageButtonUpperC6"
+                android:layout_marginLeft="69dp"/>
+
+            <ImageButton
+                android:id="@+id/imageButtonUpperFS6"
+                android:layout_width="29dp"
+                android:layout_height="66dp"
+                android:background="@drawable/keyboard_fs_selector"
+                android:scaleType="fitXY"
+                app:layout_constraintTop_toTopOf="@+id/imageButtonUpperC6"
+                app:layout_constraintLeft_toLeftOf="@+id/imageButtonUpperC6"
+                android:layout_marginLeft="140dp"/>
+
+            <ImageButton
+                android:id="@+id/imageButtonUpperGS6"
+                android:layout_width="29dp"
+                android:layout_height="66dp"
+                android:background="@drawable/keyboard_gs_selector"
+                android:scaleType="fitXY"
+                app:layout_constraintTop_toTopOf="@+id/imageButtonUpperC6"
+                app:layout_constraintLeft_toLeftOf="@+id/imageButtonUpperC6"
+                android:layout_marginLeft="186dp"/>
+
+            <ImageButton
+                android:id="@+id/imageButtonUpperAS6"
+                android:layout_width="29dp"
+                android:layout_height="66dp"
+                android:background="@drawable/keyboard_as_selector"
+                android:scaleType="fitXY"
+                app:layout_constraintTop_toTopOf="@+id/imageButtonUpperC6"
+                app:layout_constraintLeft_toLeftOf="@+id/imageButtonUpperC6"
+                android:layout_marginLeft="230dp"/>
 
         </android.support.constraint.ConstraintLayout>
     </HorizontalScrollView>
