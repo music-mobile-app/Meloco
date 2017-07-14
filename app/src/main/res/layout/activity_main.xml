@@ -6,13 +6,369 @@
     android:layout_height="match_parent"
     tools:context="jp.excd.meloco.MainActivity">
 
+    <Button
+        android:id="@+id/buttonMenu"
+        android:layout_width="88dp"
+        android:layout_height="50dp"
+        android:background="@drawable/button"
+        android:text="@string/menu"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
+        android:id="@+id/textViewMesures"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello Meloco!"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:text="3"
+        app:layout_constraintLeft_toRightOf="@+id/buttonMenu"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="8dp" />
+
+    <TextView
+        android:id="@+id/textViewLabelMeasure"
+        android:layout_width="30dp"
+        android:layout_height="18dp"
+        android:layout_marginLeft="2dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/measure"
+        app:layout_constraintLeft_toRightOf="@+id/textViewMesures"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewBeats"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="6dp"
+        android:layout_marginTop="8dp"
+        android:text="2"
+        app:layout_constraintLeft_toRightOf="@+id/textViewLabelMeasure"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="6dp" />
+
+    <TextView
+        android:id="@+id/textViewLabelBeat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="2dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/beat"
+        app:layout_constraintLeft_toRightOf="@+id/textViewBeats"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="2dp" />
+
+    <TextView
+        android:id="@+id/textViewTips"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="2dp"
+        android:layout_marginTop="8dp"
+        android:text="048"
+        app:layout_constraintLeft_toRightOf="@+id/textViewLabelBeat"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="2dp" />
+
+    <TextView
+        android:id="@+id/textViewBPM"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="120"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="30dp"
+        app:layout_constraintLeft_toRightOf="@+id/buttonMenu"
+        android:layout_marginStart="8dp" />
+
+    <TextView
+        android:id="@+id/textViewLabelBPM"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="2dp"
+        android:text="@string/bpm"
+        app:layout_constraintLeft_toRightOf="@+id/textViewBPM"
+        app:layout_constraintTop_toTopOf="@+id/textViewBPM"
+        android:layout_marginStart="2dp" />
+
+    <Button
+        android:id="@+id/buttonRec"
+        android:layout_width="88dp"
+        android:layout_height="50dp"
+        android:background="@drawable/button_rec"
+        app:layout_constraintRight_toLeftOf="@+id/spinnerMode"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Spinner
+        android:id="@+id/spinnerMode"
+        style="@style/Widget.AppCompat.Light.Spinner.DropDown.ActionBar"
+        android:layout_width="85dp"
+        android:layout_height="50dp"
+        android:background="@drawable/button"
+        android:entries="@array/list"
+        android:textAlignment="center"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/buttonLocaterTag"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/locater_tag"
+        android:text="@string/locater_tag"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonMenu" />
+
+    <Button
+        android:id="@+id/buttonMove"
+        android:layout_width="190dp"
+        android:layout_height="48dp"
+        android:layout_marginRight="2dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/button_move"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinnerMode"
+        android:layout_marginEnd="2dp" />
+
+    <ImageButton
+        android:id="@+id/imageButton"
+        android:layout_width="160dp"
+        android:layout_height="30dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="12dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonMove"
+        app:srcCompat="@drawable/melody_code_switch"
+        android:layout_marginEnd="8dp" />
+
+    <TextView
+        android:id="@+id/textViewMelody"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/melody"
+        android:layout_marginLeft="4dp"
+        app:layout_constraintLeft_toLeftOf="@+id/imageButton"
+        app:layout_constraintTop_toTopOf="@+id/imageButton"
+        android:layout_marginTop="6dp"
+        android:layout_marginStart="4dp" />
+
+    <TextView
+        android:id="@+id/textViewLabelCode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/code"
+        android:layout_marginRight="16dp"
+        app:layout_constraintRight_toRightOf="@+id/imageButton"
+        app:layout_constraintTop_toTopOf="@+id/imageButton"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="16dp" />
+
+    <ImageView
+        android:id="@+id/imageViewStep"
+        android:layout_width="0dp"
+        android:layout_height="28dp"
+        android:layout_marginEnd="2dp"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="2dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageButton"
+        app:srcCompat="@drawable/step" />
+
+    <ImageView
+        android:id="@+id/imageViewScore"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginEnd="2dp"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp"
+        android:layout_marginStart="2dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:srcCompat="@drawable/score"
+        android:layout_marginTop="6dp"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewStep"
+        app:layout_constraintHorizontal_bias="0.0" />
+
+    <ImageView
+        android:id="@+id/imageViewSquare"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:layout_marginLeft="75dp"
+        android:layout_marginStart="75dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewScore"
+        app:srcCompat="@drawable/square"
+        android:layout_marginTop="6dp" />
+
+    <TextView
+        android:id="@+id/TextViewLyrics1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="16dp"
+        android:gravity="left"
+        android:text="@string/lyrics1"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewScore"
+        android:layout_marginLeft="80dp"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageViewSquare2"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:layout_marginLeft="140dp"
+        android:layout_marginTop="6dp"
+        app:layout_constraintLeft_toRightOf="@+id/imageViewSquare"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewScore"
+        app:srcCompat="@drawable/square"
+        android:layout_marginStart="140dp" />
+
+    <TextView
+        android:id="@+id/textViewLyrics2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/lyrics2"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewScore"
+        android:layout_marginLeft="230dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginStart="230dp" />
+
+    <ImageView
+        android:id="@+id/imageViewCodeBar1"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="80dp"
+        android:layout_marginTop="26dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/TextViewLyrics1"
+        app:srcCompat="@drawable/code_bar"
+        android:layout_marginStart="80dp" />
+
+    <TextView
+        android:id="@+id/textViewCodeC"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:text="C"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        app:layout_constraintBottom_toBottomOf="@+id/imageViewCodeBar1"
+        app:layout_constraintLeft_toLeftOf="@+id/imageViewCodeBar1"
+        android:layout_marginStart="8dp" />
+
+    <TextView
+        android:id="@+id/textViewCodePtn1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="2dp"
+        android:layout_marginLeft="36dp"
+        android:text="@string/b8sp2"
+        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+        app:layout_constraintBottom_toBottomOf="@+id/imageViewCodeBar1"
+        app:layout_constraintLeft_toLeftOf="@+id/imageViewCodeBar1"
+        android:layout_marginStart="36dp" />
+
+    <ImageView
+        android:id="@+id/imageViewCodeBer2"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="26dp"
+        app:layout_constraintLeft_toRightOf="@+id/imageViewCodeBar1"
+        app:layout_constraintTop_toBottomOf="@+id/textViewLyrics2"
+        app:srcCompat="@drawable/code_bar"
+        android:layout_marginStart="8dp" />
+
+    <TextView
+        android:id="@+id/textViewCodeAM7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:text="A7"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        app:layout_constraintBottom_toBottomOf="@+id/imageViewCodeBer2"
+        app:layout_constraintLeft_toLeftOf="@+id/imageViewCodeBer2"
+        android:layout_marginStart="8dp" />
+
+    <TextView
+        android:id="@+id/textViewCodePtn2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="2dp"
+        android:layout_marginLeft="42dp"
+        android:text="@string/b8sp2"
+        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+        app:layout_constraintBottom_toBottomOf="@+id/imageViewCodeBer2"
+        app:layout_constraintLeft_toLeftOf="@+id/imageViewCodeBer2"
+        android:layout_marginStart="42dp" />
+
+    <ImageView
+        android:id="@+id/imageViewKeyboard1"
+        android:layout_width="0dp"
+        android:layout_height="120dp"
+        android:scaleType="fitXY"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:srcCompat="@drawable/keyboard" />
+
+    <ImageView
+        android:id="@+id/imageView10"
+        android:layout_width="0dp"
+        android:layout_height="120dp"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toTopOf="@+id/imageViewKeyboard1"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:srcCompat="@drawable/keyboard" />
+
+    <TextView
+        android:id="@+id/textViewC4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="C4"
+        android:layout_marginLeft="34dp"
+        app:layout_constraintLeft_toLeftOf="@+id/imageView10"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView10"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="34dp" />
+
+    <TextView
+        android:id="@+id/textViewC5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginRight="35dp"
+        android:text="C5"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView10"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginEnd="35dp" />
+
+    <TextView
+        android:id="@+id/textViewC3Under"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="7dp"
+        android:layout_marginLeft="34dp"
+        android:text="C3"
+        app:layout_constraintBottom_toBottomOf="@+id/imageViewKeyboard1"
+        app:layout_constraintLeft_toLeftOf="@+id/imageViewKeyboard1"
+        android:layout_marginStart="34dp" />
+
+    <TextView
+        android:id="@+id/textView21"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="7dp"
+        android:layout_marginRight="35dp"
+        android:text="C4"
+        app:layout_constraintBottom_toBottomOf="@+id/imageViewKeyboard1"
+        app:layout_constraintRight_toRightOf="@+id/imageViewKeyboard1"
+        android:layout_marginEnd="35dp" />
 
 </android.support.constraint.ConstraintLayout>
