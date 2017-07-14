@@ -1,3 +1,19 @@
 <resources>
-    <string name="app_name">Meloco</string>
+    <string name="app_name">Lesson07</string>
+    <string-array name="list">
+        <item>録音</item>
+        <item>練習</item>
+        <item>編集</item>
+        <item>PLAY</item>
+    </string-array>
+    <string name="menu">メニュー</string>
+    <string name="measure">小節</string>
+    <string name="beat">拍</string>
+    <string name="bpm">BPM</string>
+    <string name="locater_tag">移動</string>
+    <string name="code">コード</string>
+    <string name="melody">メロディー</string>
+    <string name="lyrics1">聞こえないフリして</string>
+    <string name="lyrics2">ごまかしていたけど</string>
+    <string name="b8sp2">8ビート スト p2</string>
 </resources>
