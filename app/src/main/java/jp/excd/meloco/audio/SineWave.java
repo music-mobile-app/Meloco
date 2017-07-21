@@ -10,6 +10,21 @@ import jp.excd.meloco.utility.CommonUtil;
 
 public class SineWave extends ActiveNote {
 
+    //フェードアウト処理フレーム
+    private final int fadeOutFrame = 4410;
+
+    //最大発音フレーム(このフレーム数を超えたら自動的に止める。)
+    private final int MAX_FRAME = 441000;
+
+    //処理フレーム数
+    private int frameCount = 0;
+
+    //フェードアウト中フラグ
+    private boolean onFadeOut = false;
+
+    //フェードアウトカウンタ
+    private int fadeOutCount = 0;
+
     //現在のサインは計算状況(位相)
     private double t = 0.0;
 
@@ -49,13 +64,53 @@ public class SineWave extends ActiveNote {
             double d = Math.sin(2.0 * Math.PI * t * freq);
             sinWave[j] = (byte) (Byte.MAX_VALUE * (d / 2));
         }
-        /*
-        for (byte b : sinWave) {
-            Log.d(CommonUtil.tag(this),"getAndUpdateWaveData()bbbb=" + b);
+        //処理済みカウンタの更新
+        this.frameCount = this.frameCount + AudioEngine.loopBuffer;
+        if (this.frameCount >= this.MAX_FRAME) {
+            //処理済みのフレーム数が最大に達したら、自動的に演奏を停止する。
+            this.onFadeOut = true;
         }
-        */
-        // TODO：フェードアウト処理
+
+        //キータッチが終わった時点から、
+        //少しずつフェードアウトで、波形を消していく。
+        //ノイズ防止のため
+        if (this.onFadeOut) {
+            sinWave = fadeOut(sinWave);
+            if (this.fadeOutCount >= this.fadeOutFrame) {
+                //終了フラグの設定
+                this.isEnd = true;
+            }
+        }
         return sinWave;
+    }
+    //-------------------------------------------------------------------------------
+    // フェードアウト処理
+    //-------------------------------------------------------------------------------
+    private byte[] fadeOut(byte[] inWave) {
+        byte[] retWave = new byte[inWave.length];
+        for (int i = 0; i < retWave.length; i++) {
+
+            //フェードアウトカウンタのカウントアップ
+            this.fadeOutCount = this.fadeOutCount + 1;
+
+            //フェードアウトのフレーム数からの比率の参集
+            double hi = 0.9999999;
+            if (this.fadeOutCount < this.fadeOutFrame) {
+                double count = (double)this.fadeOutCount;
+                double frame = (double)this.fadeOutFrame;
+                hi = count / frame;
+            }
+            //逆数を掛目とする。
+            double filter = (1.0 - hi);
+
+            //元のデータと掛け合わせる。
+            double target = inWave[i];
+            double ret = target * filter;
+
+            //補正する。
+            retWave[i] = (byte)ret;
+        }
+        return retWave;
     }
     //-------------------------------------------------------------------------------
     // 終了していればtrue
@@ -69,7 +124,8 @@ public class SineWave extends ActiveNote {
     //-------------------------------------------------------------------------------
     @Override
     public void toEnd() {
-        this.isEnd = true;
+        //波形切れのノイズを避けるため、フェードアウトしながら波形を終息させる。
+        this.onFadeOut = true;
     }
     //-------------------------------------------------------------------------------
     // 周波数の計算
