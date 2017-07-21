@@ -6,14 +6,11 @@ import android.widget.ImageButton;
 import java.util.ArrayList;
 import java.util.List;
 
-import jp.excd.meloco.MainActivity;
+import jp.excd.meloco.activity.MainActivity;
 import jp.excd.meloco.R;
 import jp.excd.meloco.constant.KeyboardType;
 
 public class KeyboardPresenter {
-
-    //クラス名(ログ出力用)
-    String CLASS = getClass().getSimpleName();
 
     //キーボードの全キーのPresenterの配列
     private List<KeyboardKeyPresenter> keyboardKeyPresenters;

@@ -3,14 +3,14 @@ package jp.excd.meloco.presenter;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import jp.excd.meloco.utility.CommonUtil;
+import jp.excd.meloco.sample.AudioTrackSin;
 
 /**
  * Created by w-nishie on 2017/07/14.
  */
 
 public class KeyboardKeyPresenter implements View.OnTouchListener {
-    //クラス名(ログ出力用)
-    String CLASS = getClass().getSimpleName();
 
     //Viewのid
     private int viewId;
@@ -21,6 +21,10 @@ public class KeyboardKeyPresenter implements View.OnTouchListener {
     //キーボードの表示段の定数
     public static final String LOWER = "LOWER";
     public static final String UPPER = "UPPER";
+    //TODO ボタンの押下状態
+    private boolean buttonOn = false;
+    //TODO ボタンの押下回数
+    private int buttonTouchCount = 0;
     //-----------------------------------------------------------
     // コンストラクタ
     // 第１引数：ViewのId
@@ -29,7 +33,7 @@ public class KeyboardKeyPresenter implements View.OnTouchListener {
     //-----------------------------------------------------------
     public KeyboardKeyPresenter(int viewId, String note, String verticalPosition) {
 
-        Log.d(CLASS, "コンストラクタ実行");
+        Log.d(CommonUtil.tag(this), "コンストラクタ実行");
 
         this.viewId = viewId;
         this.note = note;
@@ -40,16 +44,38 @@ public class KeyboardKeyPresenter implements View.OnTouchListener {
     //------------------------------------------------------------------
     public boolean onTouch(View v, MotionEvent event) {
 
-        Log.d(CLASS, "onTouch");
+        Log.d(CommonUtil.tag(this), "onTouch");
 
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             //押したときの動作
-            //logを出力
-            Log.d(CLASS,"押した");
+            //--------------------------------------------------------------------
+            // 実験用のコード
+            //--------------------------------------------------------------------
+            Log.d(CommonUtil.tag(this),"押した");
+            if (buttonOn) {
+                //TODO サイン波を停止する。
+                Log.d(CommonUtil.tag(this),"サイン波を停止する");
+                AudioTrackSin.stopPlay();
+                this.buttonOn = false;
+            } else {
+                //TODO サイン波を鳴らす。
+                Log.d(CommonUtil.tag(this), "サイン波を鳴らす");
+                //偶数会の場合は、ストリームモード
+                this.buttonTouchCount = this.buttonTouchCount + 1;
+                if (this.buttonTouchCount % 2 == 0) {
+                    //ストリームモード
+                    Log.d(CommonUtil.tag(this), "ストリームモードで鳴らす");
+                    AudioTrackSin.play(this.buttonTouchCount, true);
+                } else {
+                    //スタティックモード
+                    AudioTrackSin.play(5);
+                }
+                this.buttonOn = true;
+            }
 
         } else if (event.getAction() == MotionEvent.ACTION_UP) {
             //離したときの動作
-            Log.d(CLASS,"離した");
+            Log.d(CommonUtil.tag(this),"離した");
         }
         return false;
     }

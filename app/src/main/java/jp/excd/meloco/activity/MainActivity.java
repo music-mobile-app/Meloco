@@ -1,4 +1,4 @@
-package jp.excd.meloco;
+package jp.excd.meloco.activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -7,17 +7,17 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
+
+import jp.excd.meloco.R;
 import jp.excd.meloco.constant.KeyboardType;
 
 
 import jp.excd.meloco.presenter.KeyboardPresenter;
+import jp.excd.meloco.utility.CommonUtil;
 
 import static android.widget.Toast.*;
 
 public class MainActivity extends AppCompatActivity {
-
-    //クラス名(ログ出力用)
-    String CLASS = getClass().getSimpleName();
 
     //--------------------------------------------------------------------------
     // onCreateメソッド
@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
     //--------------------------------------------------------------------------
     void initGui() {
 
-        Log.d(CLASS, "initGui()実行");
+        Log.d(CommonUtil.tag(this),"initGui()実行");
         //----------------------------------------------------------------------
         // キーボードのリスナー登録
         //----------------------------------------------------------------------
