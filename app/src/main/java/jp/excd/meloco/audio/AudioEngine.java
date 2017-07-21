@@ -36,7 +36,7 @@ public class AudioEngine extends Thread{
     // オーディオフォーマット(8bit(TODO:後に16bit化する。)
     public static final int AUDIO_FORMAT = AudioFormat.ENCODING_PCM_8BIT;
     // ループバッファ(フレーム数)
-    public static final int loopbuffer = 16;
+    public static int loopBuffer = 128;
     //----------------------------------------------------------------------------------------------
     //  クラス変数(アクセス時には、syncronized化する。)
     //----------------------------------------------------------------------------------------------
@@ -65,6 +65,9 @@ public class AudioEngine extends Thread{
                                                  String pitch,
                                                  int volume) {
 
+        Log.d(CommonUtil.tag(),"noteOn()");
+        Log.d(CommonUtil.tag(),"pitch=" + pitch);
+
         //----------------------------------------------------------------------------------------------
         //自分自身がインスタンス化されていなければ、
         //インスタンス化する。
@@ -72,9 +75,11 @@ public class AudioEngine extends Thread{
         boolean startFlg = false;
         if (me == null) {
             me = new AudioEngine();
+            startFlg = true;
         }
         //アクティブな音源を追加
         String key = me.addSoundSource(soundSourceType, pitch, volume);
+        Log.d(CommonUtil.tag(),"key=" + key);
 
         //---------------------------------------------------------------------------------------------
         //　初回の場合（インスタンスを生成した場合は、スレッドスタートする。)
@@ -125,7 +130,7 @@ public class AudioEngine extends Thread{
                             STREAM_TYPE,
                             SAMPLE_RATE,
                             CHANNEL_CONFIG,
-                            AUDIO_FORMAT,
+                            AudioFormat.ENCODING_DEFAULT,
                             bufferSizeInByte,    //←バッファサイズを、フォーマット上の最小値に設定
                             AudioTrack.MODE_STREAM);
 
@@ -133,6 +138,9 @@ public class AudioEngine extends Thread{
         // 音源ファイルの初期化
         //------------------------------------------------------------------------------------------
         this.activeNotes = new HashMap<String, ActiveNote>();
+        //Audio起動
+        this.track.play();
+        Log.d(CommonUtil.tag(this),"track.play()");
     }
     //----------------------------------------------------------------------------------------------
     // スレッド開始
@@ -163,25 +171,34 @@ public class AudioEngine extends Thread{
     // メインループ処理
     //----------------------------------------------------------------------------------------------
     private boolean mainLoop() {
-        Log.d(CommonUtil.tag(this),"mainLoop()");
+        //Log.d(CommonUtil.tag(this),"mainLoop()");
         //波形データの取得
         byte[] sinWave = this.getAndUpDateSoundSource();
+
         //波形データが空の場合、終了
-        if (sinWave == null)||(sinWave.length == 0)) {
+        if ((sinWave == null)||(sinWave.length == 0)) {
+            Log.d(CommonUtil.tag(this),"ループ終了");
             //ループ終了
             return false;
         }
+        //Log.d(CommonUtil.tag(this),"sinWave.length=" + sinWave.length);
         //------------------------------------------------------------------------------------------
         //波形データを設定する。
         // ここでブロックがかかる(待たされる)ので、このメソッドは、sycronyzedにしない。
         //------------------------------------------------------------------------------------------
+        /*
+        for (byte b : sinWave) {
+            Log.d(CommonUtil.tag(this),"sinWave.b=" + b);
+        }
+        */
         track.write(sinWave, 0, sinWave.length);
+        return true;
     }
     //----------------------------------------------------------------------------------------------
     // 波形取得および音源状態更新処理
     //----------------------------------------------------------------------------------------------
     private synchronized byte[] getAndUpDateSoundSource() {
-        Log.d(CommonUtil.tag(this),"getAndUpDateSoundSource()");
+        //Log.d(CommonUtil.tag(this),"getAndUpDateSoundSource()");
 
         //アクティブなノードが存在しない場合は、終了する。
         int count = this.activeNotes.size();
@@ -189,7 +206,12 @@ public class AudioEngine extends Thread{
             return null;
         }
         //計算結果の入れ物
-        int[] waves = new int[loopbuffer];
+        int[] waves = new int[loopBuffer];
+        /*
+        for (int i : waves) {
+            Log.d(CommonUtil.tag(this),"waves.i1=" + i);
+        }
+        */
 
         //全てのアクティブな波形を処理
         for(Map.Entry<String, ActiveNote> entry : this.activeNotes.entrySet()) {
@@ -199,8 +221,21 @@ public class AudioEngine extends Thread{
             ActiveNote activeNote = entry.getValue();
             //波形の取得
             byte[] targetWave = activeNote.getAndUpdateWaveData();
+
+            /*
+            for (int i : targetWave) {
+                Log.d(CommonUtil.tag(this),"targetWave.i2=" + i);
+            }
+            */
             //波形の加算処理
             waves = addWave(waves, targetWave);
+
+            /*
+            for (int i : waves) {
+                Log.d(CommonUtil.tag(this),"waves.i3=" + i);
+            }
+            */
+
             //状況の確認
             boolean toEnd = activeNote.isEnd();
             if (toEnd) {
@@ -213,7 +248,7 @@ public class AudioEngine extends Thread{
         //  TODO: 本来、上限超えた波はきちんと圧縮してやる必要があると思うが、
         //         とりあえずやり方が分からないので、上限値に叩いてしまう。
         //------------------------------------------------------------------------------------------
-        byte[] rets = new byte[loopbuffer];
+        byte[] rets = new byte[loopBuffer];
         for (int i = 0; i < rets.length; i++) {
             int wave = waves[i];
             if (Byte.MAX_VALUE <= wave) {
@@ -231,14 +266,23 @@ public class AudioEngine extends Thread{
     //----------------------------------------------------------------------------------------------
     private int[] addWave(int[]waves, byte[]targetWave) {
 
-        int[] rets = new int[loopbuffer];
+        int[] rets = new int[loopBuffer];
         for (int i =0; i < waves.length; i++) {
+
+            //Log.d(CommonUtil.tag(this),"waves[i]=" + waves[i]);
+            //Log.d(CommonUtil.tag(this),"targetWave[i]=" + targetWave[i]);
+
             long l = waves[i] + targetWave[i];
-            if (Integer.MAX_VALUE > l ) {
+
+            //Log.d(CommonUtil.tag(this),"l=" + l);
+
+            if (Integer.MAX_VALUE < l ) {
                 l = Integer.MAX_VALUE;
             }
             rets[i] = (int)l;
+            //Log.d(CommonUtil.tag(this),"rets[i]=" + rets[i]);
         }
+        return rets;
     }
 
     //----------------------------------------------------------------------------------------------
@@ -253,7 +297,17 @@ public class AudioEngine extends Thread{
     private synchronized  String addSoundSource(SoundSourceType soundSourceType,
                                                   String pitch,
                                                   int volume) {
-        return "";
+        //キー情報
+        String noteKey = "";
+        if (soundSourceType == SoundSourceType.SINE_WAVE) {
+            SineWave sineWave = new SineWave(pitch, volume);
+            //キーの算出
+            int size = this.activeNotes.size();
+            noteKey = myKey + "-" + (size + 1);
+            //ノート追加
+            this.activeNotes.put(noteKey, sineWave);
+        }
+        return noteKey;
 
     }
     //----------------------------------------------------------------------------------------------
@@ -262,7 +316,8 @@ public class AudioEngine extends Thread{
     //   第１引数 key 割り振られた音源の管理キー
     //----------------------------------------------------------------------------------------------
     private synchronized void deleteSoundSource(String key) {
-
+        ActiveNote activeNote = this.activeNotes.get(key);
+        activeNote.toEnd();
     }
 
 }

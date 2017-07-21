@@ -3,6 +3,9 @@ package jp.excd.meloco.presenter;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+
+import jp.excd.meloco.audio.AudioEngine;
+import jp.excd.meloco.constant.SoundSourceType;
 import jp.excd.meloco.utility.CommonUtil;
 import jp.excd.meloco.sample.AudioTrackSin;
 
@@ -25,6 +28,8 @@ public class KeyboardKeyPresenter implements View.OnTouchListener {
     private boolean buttonOn = false;
     //TODO ボタンの押下回数
     private int buttonTouchCount = 0;
+    // 発音中の音源のキー
+    private String activeNoteKey = "";
     //-----------------------------------------------------------
     // コンストラクタ
     // 第１引数：ViewのId
@@ -52,6 +57,12 @@ public class KeyboardKeyPresenter implements View.OnTouchListener {
             // 実験用のコード
             //--------------------------------------------------------------------
             Log.d(CommonUtil.tag(this),"押した");
+            Log.d(CommonUtil.tag(this),"note=" + this.note);
+
+            //発音
+            this.activeNoteKey = AudioEngine.noteOn(SoundSourceType.SINE_WAVE, this.note, 100);
+            /*
+
             if (buttonOn) {
                 //TODO サイン波を停止する。
                 Log.d(CommonUtil.tag(this),"サイン波を停止する");
@@ -68,10 +79,12 @@ public class KeyboardKeyPresenter implements View.OnTouchListener {
                 AudioTrackSin.play(this.buttonTouchCount, true,true);
                 this.buttonOn = true;
             }
+            */
 
         } else if (event.getAction() == MotionEvent.ACTION_UP) {
             //離したときの動作
             Log.d(CommonUtil.tag(this),"離した");
+            AudioEngine.noteOff(this.activeNoteKey);
         }
         return false;
     }

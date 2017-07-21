@@ -11,4 +11,7 @@ public abstract class ActiveNote {
     //すでに終了しているか確認(すでに完了した音源はtrue)
     public abstract boolean isEnd();
 
+    //終了させる
+    public abstract void toEnd();
+
 }
