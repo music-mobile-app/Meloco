@@ -19,7 +19,13 @@ public class AudioTrackSin extends Thread {
     //ストリームモードフラグ
     public boolean streamMode = false;
     //ループバッファ(１回にループさせる数
-    public int loopBuffer = 16;
+    public static int loopBuffer = 16;
+    //ノンストップモード
+    public static boolean nonStopMode = false;
+    //追加データ
+    public static int addData = 0;
+    //ループフラグ
+    public boolean onLoop = true;
 
     //-------------------------------------------------------
     // コンストラクタ
@@ -27,9 +33,9 @@ public class AudioTrackSin extends Thread {
     //-------------------------------------------------------
     public AudioTrackSin(int length) {
         Log.d(CommonUtil.tag(this),"length=" + length);
-        Log.d(CommonUtil.tag(this),"loopBuffer=" + this.loopBuffer);
+        Log.d(CommonUtil.tag(this),"loopBuffer=" + loopBuffer);
         //１秒間にループできる回数
-        int sizeFor1sec = 44100 / this.loopBuffer;
+        int sizeFor1sec = 44100 / loopBuffer;
         //秒数をループ回数に直す。
         this.length = (sizeFor1sec * length);
 
@@ -41,22 +47,54 @@ public class AudioTrackSin extends Thread {
     //-------------------------------------------------------
     public AudioTrackSin(int length, boolean streamMode) {
         Log.d(CommonUtil.tag(this),"length=" + length);
-        Log.d(CommonUtil.tag(this),"loopBuffer=" + this.loopBuffer);
+        Log.d(CommonUtil.tag(this),"loopBuffer=" + loopBuffer);
         //１秒間にループできる回数
-        int sizeFor1sec = 44100 / this.loopBuffer;
+        int sizeFor1sec = 44100 / loopBuffer;
         //秒数をループ回数に直す。
         this.length = (sizeFor1sec * length);
         this.streamMode = streamMode;
     }
     //-------------------------------------------------------
+    // コンストラクタ
+    //  第１引数 length 音の長さを秒単位で指定。
+    //  第２引数 streamMode ストリームモードフラグ。
+    //  第３引数 nonStopMode ノンストップモードフラグ。
+    //-------------------------------------------------------
+    public AudioTrackSin(int length, boolean streamMode, boolean nonStopMode) {
+        Log.d(CommonUtil.tag(this),"nonStopMode=" + nonStopMode);
+        Log.d(CommonUtil.tag(this),"length=" + length);
+        Log.d(CommonUtil.tag(this),"loopBuffer=" + loopBuffer);
+        //１秒間にループできる回数
+        int sizeFor1sec = 44100 / loopBuffer;
+        //秒数をループ回数に直す。
+        this.length = (sizeFor1sec * length);
+        this.streamMode = streamMode;
+        nonStopMode = nonStopMode;
+    }
+    //-------------------------------------------------------
     // 再生メソッド
     //  第１引数 length 音の長さを秒単位で指定。
-    //-------------------------------------------------------
+    //----------------------------------------------------
     public static void play(int length) {
-        //スレッドを生成
-        AudioTrackSin ads = new AudioTrackSin(length);
-        //起動
-        ads.start();
+
+        if(nonStopMode) {
+            if (track == null) {
+                //スレッドを生成
+                AudioTrackSin ads = new AudioTrackSin(length);
+                //起動
+                ads.start();
+            }
+            //追加データ
+            //１秒間にループできる回数
+            int sizeFor1sec = 44100 / loopBuffer;
+            //秒数をループ回数に直す。
+            addData = (sizeFor1sec * length);
+        } else {
+            //スレッドを生成
+            AudioTrackSin ads = new AudioTrackSin(length);
+            //起動
+            ads.start();
+        }
     }
     //-------------------------------------------------------
     // 再生メソッド
@@ -66,6 +104,18 @@ public class AudioTrackSin extends Thread {
     public static void play(int length, boolean streamMode) {
         //スレッドを生成
         AudioTrackSin ads = new AudioTrackSin(length, streamMode);
+        //起動
+        ads.start();
+    }
+    //-------------------------------------------------------
+    // 再生メソッド
+    //  第１引数 length 音の長さを秒単位で指定。
+    //  第２引数 streamMode ストリームモードフラグ。
+    //  第３引数 nonStopMode AudioTrackを再利用するモード
+    //-------------------------------------------------------
+    public static void play(int length, boolean streamMode, boolean nonStopMode) {
+        //スレッドを生成
+        AudioTrackSin ads = new AudioTrackSin(length, streamMode, nonStopMode);
         //起動
         ads.start();
     }
@@ -163,6 +213,30 @@ public class AudioTrackSin extends Thread {
             Log.d(CommonUtil.tag(this),"起動");
             track.play();
         }
+        //--------------------------------------------------------------
+        // ノンストップモードの場合
+        //--------------------------------------------------------------
+        while(onLoop) {
+            Log.d(CommonUtil.tag(this), "ノンストップモード");
+            if (addData > 0) {
+                for (int i = 0; i < addData; i++ ) {
+                    Log.d(CommonUtil.tag(this),"データ書き込み");
+                    //サイン波の合成
+                    Log.d(CommonUtil.tag(this),"サイン波の合成(c3のみ)");
+                    for (int j = 0; j < sinWave.length; j++, t += dt) {
+                        double d = Math.sin(2.0 * Math.PI * t * freq_c3);
+                        sinWave[j] = (byte) (Byte.MAX_VALUE * d);
+                    }
+                    //ここでブロック
+                    track.write(sinWave, 0, sinWave.length);
+                }
+            }
+            addData = 0;
+            //スリープ
+            try{
+                Thread.sleep(10); //10ミリ秒Sleepする
+            }catch(InterruptedException e){}
+        }
     }
     //-------------------------------------------------------
     // 停止メソッド
@@ -171,14 +245,19 @@ public class AudioTrackSin extends Thread {
         String methodName = Thread.currentThread().getStackTrace()[1].getMethodName();
         String className = Thread.currentThread().getStackTrace()[1].getClassName();
 
-        if(track.getPlayState() == android.media.AudioTrack.PLAYSTATE_PLAYING){
-            Log.d(CommonUtil.tag(),"データストップ");
-            track.stop();
-            track.reloadStaticData();
-            Log.d(CommonUtil.tag(),"トラックを解放");
-            track.release();
+        if (nonStopMode) {
+           //ノンストップなら何もしない。
+
+        } else {
+            if (track.getPlayState() == android.media.AudioTrack.PLAYSTATE_PLAYING) {
+                Log.d(CommonUtil.tag(), "データストップ");
+                track.stop();
+                track.reloadStaticData();
+                Log.d(CommonUtil.tag(), "トラックを解放");
+                track.release();
+            }
+            Log.d(CommonUtil.tag(), "トラックの参照を削除");
+            track = null;
         }
-        Log.d(CommonUtil.tag(),"トラックの参照を削除");
-        track = null;
     }
 }

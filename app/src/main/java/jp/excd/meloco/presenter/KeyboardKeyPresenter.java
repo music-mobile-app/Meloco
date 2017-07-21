@@ -62,14 +62,10 @@ public class KeyboardKeyPresenter implements View.OnTouchListener {
                 Log.d(CommonUtil.tag(this), "サイン波を鳴らす");
                 //偶数会の場合は、ストリームモード
                 this.buttonTouchCount = this.buttonTouchCount + 1;
-                if (this.buttonTouchCount % 2 == 0) {
-                    //ストリームモード
-                    Log.d(CommonUtil.tag(this), "ストリームモードで鳴らす");
-                    AudioTrackSin.play(this.buttonTouchCount, true);
-                } else {
-                    //スタティックモード
-                    AudioTrackSin.play(5);
-                }
+                //ストリームモード
+                Log.d(CommonUtil.tag(this), "ストリームモードで鳴らす");
+                Log.d(CommonUtil.tag(this), "ノンストップモード");
+                AudioTrackSin.play(this.buttonTouchCount, true,true);
                 this.buttonOn = true;
             }
 
