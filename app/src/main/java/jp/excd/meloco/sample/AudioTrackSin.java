@@ -14,10 +14,12 @@ public class AudioTrackSin extends Thread {
 
     //AnudioTrack
     public static AudioTrack track = null;
-    //音の長さ(秒数で指定(-1を設定すると、無限ループ)
+    //音の長さ(ループ回数)
     public int length = 1;
     //ストリームモードフラグ
     public boolean streamMode = false;
+    //ループバッファ(１回にループさせる数
+    public int loopBuffer = 16;
 
     //-------------------------------------------------------
     // コンストラクタ
@@ -25,7 +27,12 @@ public class AudioTrackSin extends Thread {
     //-------------------------------------------------------
     public AudioTrackSin(int length) {
         Log.d(CommonUtil.tag(this),"length=" + length);
-        this.length = length;
+        Log.d(CommonUtil.tag(this),"loopBuffer=" + this.loopBuffer);
+        //１秒間にループできる回数
+        int sizeFor1sec = 44100 / this.loopBuffer;
+        //秒数をループ回数に直す。
+        this.length = (sizeFor1sec * length);
+
     }
     //-------------------------------------------------------
     // コンストラクタ
@@ -34,7 +41,11 @@ public class AudioTrackSin extends Thread {
     //-------------------------------------------------------
     public AudioTrackSin(int length, boolean streamMode) {
         Log.d(CommonUtil.tag(this),"length=" + length);
-        this.length = length;
+        Log.d(CommonUtil.tag(this),"loopBuffer=" + this.loopBuffer);
+        //１秒間にループできる回数
+        int sizeFor1sec = 44100 / this.loopBuffer;
+        //秒数をループ回数に直す。
+        this.length = (sizeFor1sec * length);
         this.streamMode = streamMode;
     }
     //-------------------------------------------------------
@@ -98,20 +109,23 @@ public class AudioTrackSin extends Thread {
         }
 
         // サイン波（１秒分）
-        byte[] sinWave = new byte[44100];
+        //byte[] sinWave = new byte[44100];
+        //任意の回数
+        byte[] sinWave = new byte[this.loopBuffer];
 
         double freq_c3 = 261.6256;
         double freq_e3 = 329.6276;
         double freq_g3 = 391.9954;
         double t = 0.0;
         double dt = 1.0 / 44100;
-
+        /*
         for (int i = 0; i < sinWave.length; i++, t += dt) {
             double sum = Math.sin(2.0 * Math.PI * t * freq_c3)
                         + Math.sin(2.0 * Math.PI * t * freq_e3)
                         + Math.sin(2.0 * Math.PI * t * freq_g3);
             sinWave[i] = (byte) (Byte.MAX_VALUE * (sum/3));
         }
+        */
         //--------------------------------------------------------------
         // ストリームモードの場合は、まず、起動
         //--------------------------------------------------------------
@@ -126,6 +140,19 @@ public class AudioTrackSin extends Thread {
         //----------------------------------------------
         for (int i = 0; i < this.length; i++ ) {
             Log.d(CommonUtil.tag(this),"データ書き込み");
+            //サイン波の合成
+            Log.d(CommonUtil.tag(this),"サイン波の合成(c3のみ)");
+            for (int j = 0; j < sinWave.length; j++, t += dt) {
+                /*
+                double sum = Math.sin(2.0 * Math.PI * t * freq_c3)
+                        + Math.sin(2.0 * Math.PI * t * freq_e3)
+                        + Math.sin(2.0 * Math.PI * t * freq_g3);
+                sinWave[j] = (byte) (Byte.MAX_VALUE * (sum/3));
+                */
+                double d = Math.sin(2.0 * Math.PI * t * freq_c3);
+                sinWave[j] = (byte)(Byte.MAX_VALUE * d);
+            }
+            //ここでブロック
             track.write(sinWave, 0, sinWave.length);
         }
         //--------------------------------------------------------------
@@ -148,8 +175,10 @@ public class AudioTrackSin extends Thread {
             Log.d(CommonUtil.tag(),"データストップ");
             track.stop();
             track.reloadStaticData();
+            Log.d(CommonUtil.tag(),"トラックを解放");
+            track.release();
         }
-        Log.d(CommonUtil.tag(),"トラックを削除");
+        Log.d(CommonUtil.tag(),"トラックの参照を削除");
         track = null;
     }
 }
