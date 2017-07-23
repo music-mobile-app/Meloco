@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">作曲アプリ(メロコ)</string>
+    <string name="app_name">作曲アプリ</string>
     <string-array name="list">
         <item>録音</item>
         <item>練習</item>
