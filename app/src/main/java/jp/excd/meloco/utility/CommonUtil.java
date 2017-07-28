@@ -3,6 +3,8 @@
 //--------------------------------------------
 package jp.excd.meloco.utility;
 
+import android.util.Log;
+
 public class CommonUtil {
     //----------------------------------------------------------------
     public static String TAG_FOR_LOG = "アプリ出力ログ";
@@ -11,6 +13,7 @@ public class CommonUtil {
     //   インスタンスメソッドの場合
     //----------------------------------------------------------------
     public static String tag(Object o) {
+
         String s = TAG_FOR_LOG + " " + o.getClass().getSimpleName();
         return s;
     }
@@ -20,6 +23,17 @@ public class CommonUtil {
     //----------------------------------------------------------------
     public static String tag() {
         return TAG_FOR_LOG;
+    }
+    //----------------------------------------------------------------------------------------------
+    // 16bit⇒8bit変換
+    //----------------------------------------------------------------------------------------------
+    public static byte[] from16to8(short[] shorts) {
+
+        byte[] ret = new byte[shorts.length];
+        for (int i =0; i < ret.length; i++) {
+            ret[i] = (byte)shorts[i];
+        }
+        return ret;
     }
 
 }

@@ -290,6 +290,32 @@
                 android:max="100"
                 app:layout_constraintTop_toTopOf="@+id/textViewValueCompresBorder" />
 
+            <!-- ログ出力 -->
+            <TextView
+                android:id="@+id/textViewLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="20dp"
+                android:text="ログ出力"
+                android:textAppearance="@style/TextAppearance.AppCompat"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/seekBarCompresBorder" />
+
+            <Switch android:id="@+id/switchLog"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="20dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewLabel"
+                android:layout_centerHorizontal="true"
+                android:checked="false"
+                android:text=""
+                android:textOff="オフ"
+                android:textOn="オン"/>
+
+
         </android.support.constraint.ConstraintLayout>
     </ScrollView>
 

@@ -8,6 +8,7 @@ import android.widget.Button;
 
 import jp.excd.meloco.R;
 import jp.excd.meloco.utility.CommonUtil;
+import jp.excd.meloco.utility.WLog;
 
 public class DevelopConfigSetActivity extends AppCompatActivity {
 
@@ -23,7 +24,7 @@ public class DevelopConfigSetActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                Log.d(CommonUtil.tag(this), "閉じるボタン押下");
+                WLog.d(this, "閉じるボタン押下");
                 //閉じる。
                 finish();
             }
