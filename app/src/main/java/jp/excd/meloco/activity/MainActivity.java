@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -13,6 +14,7 @@ import jp.excd.meloco.constant.KeyboardType;
 
 
 import jp.excd.meloco.presenter.KeyboardPresenter;
+import jp.excd.meloco.presenter.ButtonMenuPresenter;
 import jp.excd.meloco.utility.CommonUtil;
 
 import static android.widget.Toast.*;
@@ -40,5 +42,13 @@ public class MainActivity extends AppCompatActivity {
         //----------------------------------------------------------------------
         KeyboardPresenter keyboardPresenter = new KeyboardPresenter(KeyboardType.DOUBLE);
         keyboardPresenter.setListner(this);
+        //----------------------------------------------------------------------
+        // メニューのリスナー登録
+        //----------------------------------------------------------------------
+        ButtonMenuPresenter menuPresenter = new ButtonMenuPresenter();
+
+        menuPresenter.setListner(this);
+
+
     }
 }
