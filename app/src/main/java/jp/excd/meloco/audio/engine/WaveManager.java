@@ -19,9 +19,10 @@ public class WaveManager extends Thread{
     // 排他用オブジェクト
     //----------------------------------------------------------------------------------------------
     // 波形アクセス中
-    // このセマフォがONの場合は、波形データの参照もしくは、更新をしている
     // 同時にひとつのスレッドのみが、波形データへのアクセスを許される
-    public static ReentrantLock waveDataAccess = new ReentrantLock();
+    // また、アクティブ音源がない場合、このオブジェクトをwait()する。
+    // アクティブ音源を設定するスレッドは、アクティブな音源ができたら、notifyAll()する。
+    public static Object waveDataAccess = new Object();
 
     // 次の波形データあり
     // 次の波形データの待ち合わせをするための、ロック用オブジェクト
@@ -31,18 +32,13 @@ public class WaveManager extends Thread{
     // 次の波形データが更新できたとき、notifyAllする。
     public static Object nextDataLock = new Object();
 
-    // アクティブ音源あり
-    // アクティブ音源の有無を確認するための、ロック用オブジェクト
-    // アクティブ音源がなくなったら、このオブジェクトを取得して、wait()、音源を追加する側はnotfyAll()する。
-    public static Object activeNoteLock = new Object();
-
     //----------------------------------------------------------------------------------------------
     // 発音中のデータ群
     // このデータ（内部に抱えているインスタンスを含む）にアクセスする場合には、
     // waveDataAccessをロックする。
     //----------------------------------------------------------------------------------------------
     // 現在鳴っている音源群
-    private Map<String ,ActiveNote> activeNotes;
+    private static Map<String ,ActiveNote> activeNotes;
 
     //----------------------------------------------------------------------------------------------
     // 次に返却するデータ
@@ -63,9 +59,9 @@ public class WaveManager extends Thread{
     //終了フラグ（外部から強制終了させる場合にtreu)
     public boolean stopFlg = false;
 
-    //----------------------------------------------------------------------------------------------
-    // コンストラクタ
-    //----------------------------------------------------------------------------------------------
+    //AudioTrack停止フラグ
+    public boolean audioTrackToStop = false;
+
     //----------------------------------------------------------------------------------------------
     // コンストラクタ
     //  プライベート化して、外部からインスタンス化できないようにする。
@@ -73,15 +69,10 @@ public class WaveManager extends Thread{
     private WaveManager() {
         WLog.d("WaveManagerコンストラクタ");
 
-        try {
-            //ロック取得
-            waveDataAccess.lock();
+        synchronized (waveDataAccess) {
 
             //発音中のデータの初期化
-            this.activeNotes = new HashMap<String, ActiveNote>();
-        } finally {
-            //ロック解放
-            waveDataAccess.unlock();
+            activeNotes = new HashMap<String, ActiveNote>();
         }
     }
     //----------------------------------------------------------------------------------------------
@@ -96,6 +87,9 @@ public class WaveManager extends Thread{
             mainLoop();
         }
         WLog.d(this, "スレッド終了");
+
+        WLog.d(this, "AudioWrapperにも、音源生成が終了したことを伝える。");
+        this.audioTrackToStop = true;
     }
     //----------------------------------------------------------------------------------------------
     // メイン処理
@@ -104,29 +98,37 @@ public class WaveManager extends Thread{
 
         //波形データの入れ物
         short[] shorts = null;
-        //------------------------------------------------------------------------------------------
-        //次の波形の生成処理
-        //------------------------------------------------------------------------------------------
-        try {
-            //発音中データロック取得
-            waveDataAccess.lock();
+
+        synchronized (waveDataAccess) {
 
             //波形データの取得
             shorts = getNextData();
 
-        } finally {
-            //ロック解放
-            waveDataAccess.unlock();
+            //波形データが取得できない場合は、待ち合わせ
+            try {
+                WLog.d(this, "波形データが取得できないのでwait");
+                wait();
+            }catch (InterruptedException e) {
+                WLog.d(this, "音源更新プロセスより通知あり");
+            }
+
         }
-        //------------------------------------------------------------------------------------------
-        // 波形データの更新
-        //------------------------------------------------------------------------------------------
-        nextDataUpdate(shorts);
+        if (( shorts == null)||( shorts.length == 0)) {
+            WLog.d(this, "波形データが取得できていないので、更新しない。");
+        } else {
+            WLog.d(this, "波形データをAudioTrackWrapperに伝える。");
+            nextDataUpdate(shorts);
+        }
     }
     //----------------------------------------------------------------------------------------------
     // 波形データの更新
+    // 第１引数：更新する波形データ
+    //           型は、short[]であるが、8bitエンコーディングの設定の場合には、
+    //           byteの幅を越えないデータが設定されている。
     //----------------------------------------------------------------------------------------------
     private void nextDataUpdate(short[] shorts) {
+
+        WLog.d(this, "nextDataUpdate()");
 
         boolean loopOn = true;
         while(loopOn) {
@@ -138,34 +140,93 @@ public class WaveManager extends Thread{
                 if (this.allready) {
                     //未処理の場合は、処理済みになるのを待つ。
                     try {
+                        WLog.d(this, "未処理のため、処理済みになるのを待つ");
                         wait();
                     } catch (InterruptedException e){
                         WLog.d(this, "AudioTrackWrapperより通知あり");
                     }
-                }
-                //受け入れ可能な場合は、更新
-                //8bitの場合、byteで返却
-                if (AudioConfig.AUDIO_FORMAT == AudioFormat.ENCODING_PCM_8BIT) {
-                    this.nextData8bit = CommonUtil.from16to8(shorts);
                 } else {
-                    this.nextData16bit = shorts;
+                    //受け入れ可能な場合は、更新
+                    //8bitの場合、byteで返却
+                    if (AudioConfig.AUDIO_FORMAT == AudioFormat.ENCODING_PCM_8BIT) {
+                        this.nextData8bit = CommonUtil.from16to8(shorts);
+                    } else {
+                        this.nextData16bit = shorts;
+                    }
+                    //状態の更新
+                    this.allready = true;
+
+                    //状態が更新されたことをAudioTrackWrapperに通知
+                    notifyAll();
+
+                    //ループフラグのクリア
+                    loopOn = false;
                 }
-                //状態の更新
-                this.allready = true;
-
-                //状態が更新されたことをAudioTrackWrapperに通知
-                notifyAll();
-
-                //ループフラグのクリア
-                loopOn = false;
             }
         }
     }
     //----------------------------------------------------------------------------------------------
-    // 次の波形データの取得
+    // 名称    ：次の波形データの取得
+    // 処理概要：アクティブな音源から波形データを編集して返却する。
+    // 注意点　：このメソッドは、waveDataAccessに対するロックを取得している状態で、
+    //           呼び出されることを前提としている。
+    //           ロックを獲得せずに呼び出すと、音源データの不整合で異常終了する。
+    // 戻り値　：１ループバッファ分の波形データ
+    //         　モノラル形式の場合は、配列数　＝　ループバッファ数
+    //         　ステレオ形式の場合は、配列数　＝　ループバッファ数の２倍（左右のデータ交互に入る）
+    //         　アクティブなデータが存在しない場合はnullを返却する。
     //----------------------------------------------------------------------------------------------
     private short[] getNextData() {
-        //TODO 実装する。
-        return null;
+
+        WLog.d(this, "getNextData()");
+
+        //------------------------------------------------------------------------------------------
+        // アクティブな音源の存在確認
+        //------------------------------------------------------------------------------------------
+        if ((activeNotes == null)||(activeNotes.length == 0)) {
+            WLog.d(this, "アクティブな音源が存在しない");
+            return null;
+        }
+        //------------------------------------------------------------------------------------------
+        // 配列数の計算
+        //------------------------------------------------------------------------------------------
+        int size = AudioConfig.LOOP_BUFFER_SIZE;
+        if (AudioConfig.CHANNEL_CONFIG == AudioFormat.CHANNEL_OUT_STEREO) {
+            //２倍する。
+            size = size * 2;
+        }
+        //------------------------------------------------------------------------------------------
+        // 計算した波形の入れ物
+        //------------------------------------------------------------------------------------------
+        int[] waves = new int[size];
+
+        //------------------------------------------------------------------------------------------
+        // すべてのアクティブな音源から波形データを獲得して足し合わせる。
+        //------------------------------------------------------------------------------------------
+        for(Map.Entry<String, ActiveNote> entry : activeNotes.entrySet()) {
+            //キー
+            String key = entry.getKey();
+            //実体
+            ActiveNote activeNote = entry.getValue();
+            //波形の取得
+            int[] targetWave = activeNote.getAndUpdateWaveData();
+
+            //波形の加算処理
+            waves = CommonUtil.addWave(waves, targetWave);
+
+            //状況の確認
+            boolean toEnd = activeNote.isEnd();
+            if (toEnd) {
+                //アクティブノードから削除
+                activeNotes.remove(key);
+            }
+        }
+        //------------------------------------------------------------------------------------------
+        // int配列をshort配列の範囲まで圧縮する。
+        //------------------------------------------------------------------------------------------
+        short[] rets = CommonUtil.compressWaveData(waves);
+
+        return retsu;
     }
+
 }
