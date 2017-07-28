@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="jp.excd.meloco.activity.DevelopConfigSetActivity">
+
+    <Button
+        android:id="@+id/buttonClose"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/close"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp" />
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonClose"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:id="@+id/scrollView2"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintVertical_bias="1.0">
+
+        <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toTopOf="@+id/scrollView2"
+            tools:layout_editor_absoluteX="8dp">
+
+            <!-- モノラル／ステレオ -->
+            <TextView
+                android:id="@+id/textViewChannelConfig"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
+                android:text="モノ／ステレオ"
+                android:textAppearance="@style/TextAppearance.AppCompat"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <RadioGroup
+                android:id="@+id/radiogroupChannelConfig"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewChannelConfig">
+
+                <RadioButton
+                    android:id="@+id/radiobuttonChannelConfigStereo"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="8dp"
+                    android:text="ステレオ"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <RadioButton
+                    android:id="@+id/radiobuttonChannelConfigMono"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="8dp"
+                    android:text="モノラル"
+                    app:layout_constraintLeft_toRightOf="@+id/radiobuttonChannelConfigStereo"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </RadioGroup>
+
+            <!-- サンプルレート -->
+            <TextView
+                android:id="@+id/textViewLabelSampleRate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="20dp"
+                android:text="サンプリングレート"
+                android:textAppearance="@style/TextAppearance.AppCompat"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/radiogroupChannelConfig" />
+
+            <TextView
+                android:id="@+id/textViewValueSampleRate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="20dp"
+                android:text="44100"
+                android:textAppearance="@style/TextAppearance.AppCompat"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewLabelSampleRate" />
+
+            <!-- エンコーディングフォーマット -->
+            <TextView
+                android:id="@+id/textViewLabelAudioFormat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_margin="8dp"
+                android:text="エンコーディングフォーマット"
+                android:textAppearance="@style/TextAppearance.AppCompat"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textViewValueSampleRate" />
+
+            <RadioGroup
+                android:id="@+id/radiogroupAudioFormat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewLabelAudioFormat">
+
+                <RadioButton
+                    android:id="@+id/radiobuttonAudioFormat8"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="8dp"
+                    android:text="8bit"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <RadioButton
+                    android:id="@+id/radiobuttonAudioFormat16"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="8dp"
+                    android:text="16bit"
+                    app:layout_constraintLeft_toRightOf="@+id/radiobuttonAudioFormat8"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </RadioGroup>
+
+            <!-- ループバッファフレーム数 -->
+            <TextView
+                android:id="@+id/textViewLabelLoopBufferSize"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="20dp"
+                android:text="ループバッファフレーム数"
+                android:textAppearance="@style/TextAppearance.AppCompat"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/radiogroupAudioFormat" />
+
+            <TextView
+                android:id="@+id/textViewValueLoopBufferSize"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="20dp"
+                android:text="128"
+                android:textAppearance="@style/TextAppearance.AppCompat"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewLabelLoopBufferSize" />
+
+            <SeekBar
+                android:id="@+id/seekBarLoopBufferSize"
+                android:layout_width="200dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="0dp"
+                app:layout_constraintLeft_toRightOf="@+id/textViewValueLoopBufferSize"
+                android:progress="128"
+                android:max="44100"
+                app:layout_constraintTop_toTopOf="@+id/textViewValueLoopBufferSize" />
+
+            <!-- ループバッファフレーム数 -->
+            <TextView
+                android:id="@+id/textViewLabelFadeOutFrameSize"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="20dp"
+                android:text="フェードアウトフレーム数"
+                android:textAppearance="@style/TextAppearance.AppCompat"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/seekBarLoopBufferSize" />
+
+            <TextView
+                android:id="@+id/textViewValueFadeOutFrameSize"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="20dp"
+                android:text="4410"
+                android:textAppearance="@style/TextAppearance.AppCompat"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewLabelFadeOutFrameSize" />
+
+            <SeekBar
+                android:id="@+id/seekBarFadeOutFrameSize"
+                android:layout_width="200dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="0dp"
+                app:layout_constraintLeft_toRightOf="@+id/textViewValueFadeOutFrameSize"
+                android:progress="128"
+                android:max="44100"
+                app:layout_constraintTop_toTopOf="@+id/textViewValueFadeOutFrameSize" />
+
+            <!-- 元音の振幅倍率(%) -->
+            <TextView
+                android:id="@+id/textViewLabelSourceSoundRange"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="20dp"
+                android:text="元音の振幅倍率(%)"
+                android:textAppearance="@style/TextAppearance.AppCompat"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/seekBarFadeOutFrameSize" />
+
+            <TextView
+                android:id="@+id/textViewValueSourceSoundRange"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="20dp"
+                android:text="40"
+                android:textAppearance="@style/TextAppearance.AppCompat"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewLabelSourceSoundRange" />
+
+            <SeekBar
+                android:id="@+id/seekBarSourceSoundRange"
+                android:layout_width="200dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="0dp"
+                app:layout_constraintLeft_toRightOf="@+id/textViewValueSourceSoundRange"
+                android:progress="40"
+                android:max="100"
+                app:layout_constraintTop_toTopOf="@+id/textViewValueSourceSoundRange" />
+
+            <!-- リミッティング敷居値 -->
+            <TextView
+                android:id="@+id/textViewLabelCompresBorder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="20dp"
+                android:text="リミッティング敷居値(%)"
+                android:textAppearance="@style/TextAppearance.AppCompat"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/seekBarSourceSoundRange" />
+
+            <TextView
+                android:id="@+id/textViewValueCompresBorder"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="20dp"
+                android:text="40"
+                android:textAppearance="@style/TextAppearance.AppCompat"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewLabelCompresBorder" />
+
+            <SeekBar
+                android:id="@+id/seekBarCompresBorder"
+                android:layout_width="200dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="0dp"
+                app:layout_constraintLeft_toRightOf="@+id/textViewValueCompresBorder"
+                android:progress="80"
+                android:max="100"
+                app:layout_constraintTop_toTopOf="@+id/textViewValueCompresBorder" />
+
+        </android.support.constraint.ConstraintLayout>
+    </ScrollView>
+
+</android.support.constraint.ConstraintLayout>

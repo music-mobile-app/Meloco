@@ -1,5 +1,6 @@
 package jp.excd.meloco.activity;
 
+import android.content.Intent;
 import android.content.res.Resources;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -63,6 +64,22 @@ public class MenuActivity extends AppCompatActivity {
 
                 String str = (String)((TextView)view).getText();
                 Log.d(CommonUtil.tag(this), "onItemClick" + "selected=" + str);
+
+                Resources res = getResources();
+                //開発メニュー文字列の取得
+                String addMenu = res.getString(R.string.menu_list_add_for_develop);
+
+                if (str.equals(addMenu)) {
+                    //開発メニューオープン
+
+                    //インテントの作成
+                    Intent intent = new Intent(getApplication(), DevelopConfigSetActivity.class);
+
+                    //画面遷移
+                    startActivity(intent);
+
+
+                }
 
             }
         });
