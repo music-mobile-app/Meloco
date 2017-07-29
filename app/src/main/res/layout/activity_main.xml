@@ -112,13 +112,14 @@
 
     <Button
         android:id="@+id/buttonLocaterTag"
-        android:layout_width="88dp"
+        android:layout_width="44dp"
         android:layout_height="50dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/locater_tag"
         android:text="@string/locater_tag"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonMenu" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonMenu"
+        android:layout_marginLeft="0dp" />
 
     <Button
         android:id="@+id/buttonMove"
