@@ -4,7 +4,7 @@
 package jp.excd.meloco.utility;
 
 import android.media.AudioFormat;
-import android.util.Log;
+import jp.excd.meloco.utility.WLog;
 
 import jp.excd.meloco.audio.engine.AudioConfig;
 
@@ -98,69 +98,134 @@ public class CommonUtil {
         // エンコーディングのフォーマットの判断
         //------------------------------------------------------------------------------------------
         if (AudioConfig.AUDIO_FORMAT == AudioFormat.ENCODING_PCM_8BIT) {
-            return compressIntToShort(inI);
+            return compressWaveData(inI, Short.MIN_VALUE, Short.MIN_VALUE);
         } else if (AudioConfig.AUDIO_FORMAT == AudioFormat.ENCODING_PCM_16BIT) {
-            return compressIntToByte(inI);
+            return compressWaveData(inI, Byte.MIN_VALUE, Byte.MAX_VALUE);
         }
     }
     //----------------------------------------------------------------------------------------------
     // 名称    ：波形データの圧縮
     // 処理概要：与えられた波形データを16bitに圧縮して返却する。
     // 引数１　：圧縮前のint
+    // 引数２　：波形データの最小値
+    // 引数３　：波形データの最大値
     // 戻り値　：圧縮後のshort
     //----------------------------------------------------------------------------------------------
-    public static short compressIntToShort(int inI) {
+    public static short compressWaveData(int inI, int minValue, int maxValue) {
 
-        //TODO 修正する。
+        WLog.d("compressIntToShort");
+        WLog.d("inI=" + inI);
 
+        //ローカット要
+        boolean lowCutOn = false;
+        //ハイカット要
+        boolean highCutOn = false;
         //------------------------------------------------------------------------------------------
-        //圧縮後のサイズの取得
-        //------------------------------------------------------------------------------------------
-        int compressSize = 8;
-        if (AudioConfig.AUDIO_FORMAT == AudioFormat.ENCODING_PCM_8BIT) {
-            compressSize = 8;
-        } else if (AudioConfig.AUDIO_FORMAT == AudioFormat.ENCODING_PCM_16BIT) {
-            compressSize = 16;
-        }
-        //------------------------------------------------------------------------------------------
-        //圧縮のしきい値の取得
+        // 圧縮のしきい値の取得
         //------------------------------------------------------------------------------------------
         int border = AudioConfig.COMPRESS_BORDER;
-        int lowLimit = 0;
-        int highLimit = 0;
-        if (compressSize == 8) {
-            lowLimit = (Byte.MIN_VALUE * (border / 100));
-            highLimit = (Byte.MAX_VALUE * (border / 100));
-        } else {
-            lowLimit = (Short.MIN_VALUE * (border / 100));
-            highLimit = (Short.MAX_VALUE * (border / 100));
-        }
-        //------------------------------------------------------------------------------------------
-        // 圧縮の最大値と、最大値までの幅を算出
-        //------------------------------------------------------------------------------------------
-        int lowRenge =
+        WLog.d("border=" + border);
+
+        int lowLimit = (minValue * (border / 100));
+        WLog.d("lowLimit=" + lowLimit);
+
+        int highLimit = (maxValue * (border / 100));
+        WLog.d("highLimit=" + highLimit);
 
         //------------------------------------------------------------------------------------------
-        //圧縮のしきい値を越えているかチェック
+        // 圧縮のしきい値チェック(下限)
         //------------------------------------------------------------------------------------------
-        if (inI < lowLimit) {
+        if (lowLimit > inI) {
+            lowCutOn = true;
+            WLog.d("lowCutOn=on");
+        }
+        //------------------------------------------------------------------------------------------
+        // 圧縮のしきい値チェック(上限)
+        //------------------------------------------------------------------------------------------
+        if (highLimit < inI) {
+            highCutOn = true;
+            WLog.d("highCutOn=on");
+        }
+        //------------------------------------------------------------------------------------------
+        // 圧縮のしきい値を越えていなければ、何もしない。
+        //------------------------------------------------------------------------------------------
+        if ((highCutOn == false)&&(lowCutOn == false)) {
+            WLog.d("何もせずに返却");
+            return (short)inI;
+        }
+        //------------------------------------------------------------------------------------------
+        // 想定する（現実的な）Inputの最大を、本来の振幅の３倍とし、
+        // Inputが、しきい値を越え、想定するInputの最大までの割合を、
+        // しきい値から振幅の最大までの幅の占める割合に置き換える。
+        // もしもInputが想定するInputの最大をそもそも越えている場合は、
+        // 振幅の最大に合わせる。
+        //------------------------------------------------------------------------------------------
+        //圧縮対象の幅の算出
+        int compressRage = (maxValue * 3) - highLimit;
+        //実データの圧縮対象の幅
+        int targetCompressRange = maxValue - highLimit;
+
+        //------------------------------------------------------------------------------------------
+        // 上限調整
+        //------------------------------------------------------------------------------------------
+        if (highCutOn) {
+            //差分の取り出し
+            int sa = inI - highLimit;
+            WLog.d("sa=" + sa);
+
+            //差分の圧縮対象の幅に占める割合を算出①
+            double fraction = ((double)sa / (double)compressRage);
+            WLog.d("fraction=" + fraction);
+
+            //実データの圧縮対象の幅にかけ合わせる。
+            int compressZone = (int)(fraction * targetCompressRange);
+            WLog.d("compressZone=" + compressZone);
+
             //圧縮
-            //線形で、Limitまでの比をかけ合わせる。
+            int compressed = highLimit + compressZone;
+            WLog.d("compressed=" + compressed);
 
+            //この時点で、振幅の最大値を越えている場合（①で１以上が求まっている場合）
+            //最大値に調整
+            if (compressed > maxValue) {
+                WLog.d("上限最大値に調整");
+                return (short)maxValue;
+            } else {
+                return (short)compressed;
+            }
         }
+        //------------------------------------------------------------------------------------------
+        // 下限調整
+        //------------------------------------------------------------------------------------------
+        if (lowCutOn) {
+            //差分の取り出し
+            int sa = inI - lowLimit;
+            WLog.d("sa=" + sa);
+            //絶対値に直す
+            sa = (-1) * sa;
 
+            //差分の圧縮対象の幅に占める割合を算出①
+            double fraction = ((double)sa / (double)compressRage);
+            WLog.d("fraction=" + fraction);
 
+            //実データの圧縮対象の幅にかけ合わせる。
+            int compressZone = (int)(fraction * targetCompressRange);
+            WLog.d("compressZone=" + compressZone);
 
-        return 0;
-    }
-    //----------------------------------------------------------------------------------------------
-    // 名称    ：波形データの圧縮
-    // 処理概要：与えられた波形データを8bitに圧縮して返却する。
-    // 引数１　：圧縮前のint
-    // 戻り値　：圧縮後のshort(8bitの値が入っている)
-    //----------------------------------------------------------------------------------------------
-    public static short compressIntToByte(int inI) {
+            //圧縮
+            int compressed = lowLimit - compressZone;
+            WLog.d("compressed=" + compressed);
 
-        return 0;
+            //この時点で、振幅の最小値を越えている場合（①で１以上が求まっている場合）
+            //最小値に調整
+            if (compressed < minValue) {
+                WLog.d("下限最小値に調整");
+                return (short)minValue;
+            } else {
+                return (short)compressed;
+            }
+        }
+        WLog.d("下限調整も上限調整もなし");
+        return (short)inI;
     }
 }
