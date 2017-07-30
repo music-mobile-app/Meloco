@@ -183,7 +183,7 @@ public class WaveManager extends Thread{
         //------------------------------------------------------------------------------------------
         // アクティブな音源の存在確認
         //------------------------------------------------------------------------------------------
-        if ((activeNotes == null)||(activeNotes.length == 0)) {
+        if ((activeNotes == null)||(activeNotes.size() == 0)) {
             WLog.d(this, "アクティブな音源が存在しない");
             return null;
         }
@@ -226,7 +226,7 @@ public class WaveManager extends Thread{
         //------------------------------------------------------------------------------------------
         short[] rets = CommonUtil.compressWaveData(waves);
 
-        return retsu;
+        return rets;
     }
 
 }
