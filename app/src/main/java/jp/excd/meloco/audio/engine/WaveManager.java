@@ -14,7 +14,7 @@ import jp.excd.meloco.audio.engine.ActiveNote;
 import jp.excd.meloco.utility.CommonUtil;
 import jp.excd.meloco.utility.WLog;
 
-public class WaveManager extends Thread{
+public class WaveManager extends Thread {
     //----------------------------------------------------------------------------------------------
     // 排他用オブジェクト
     //----------------------------------------------------------------------------------------------
@@ -32,13 +32,16 @@ public class WaveManager extends Thread{
     // 次の波形データが更新できたとき、notifyAllする。
     public static Object nextDataLock = new Object();
 
+    // 自分自身の参照
+    private static WaveManager me = null;
+
     //----------------------------------------------------------------------------------------------
     // 発音中のデータ群
     // このデータ（内部に抱えているインスタンスを含む）にアクセスする場合には、
     // waveDataAccessをロックする。
     //----------------------------------------------------------------------------------------------
     // 現在鳴っている音源群
-    private static Map<String ,ActiveNote> activeNotes;
+    private static Map<String, ActiveNote> activeNotes;
 
     //----------------------------------------------------------------------------------------------
     // 次に返却するデータ
@@ -76,6 +79,17 @@ public class WaveManager extends Thread{
         }
     }
     //----------------------------------------------------------------------------------------------
+    // インスタンス化
+    //----------------------------------------------------------------------------------------------
+    public static synchronized WaveManager getInstance() {
+        if (me == null) {
+            //最初の１度だけインスタンスを生成する。
+            me = new WaveManager();
+        }
+        return me;
+    }
+
+    //----------------------------------------------------------------------------------------------
     // スレッド開始
     //----------------------------------------------------------------------------------------------
     public void run() {
@@ -90,6 +104,9 @@ public class WaveManager extends Thread{
 
         WLog.d(this, "AudioWrapperにも、音源生成が終了したことを伝える。");
         this.audioTrackToStop = true;
+
+        //自分自身を初期化
+        me = null;
     }
     //----------------------------------------------------------------------------------------------
     // メイン処理
@@ -108,18 +125,19 @@ public class WaveManager extends Thread{
             try {
                 WLog.d(this, "波形データが取得できないのでwait");
                 wait();
-            }catch (InterruptedException e) {
+            } catch (InterruptedException e) {
                 WLog.d(this, "音源更新プロセスより通知あり");
             }
 
         }
-        if (( shorts == null)||( shorts.length == 0)) {
+        if ((shorts == null) || (shorts.length == 0)) {
             WLog.d(this, "波形データが取得できていないので、更新しない。");
         } else {
             WLog.d(this, "波形データをAudioTrackWrapperに伝える。");
             nextDataUpdate(shorts);
         }
     }
+
     //----------------------------------------------------------------------------------------------
     // 波形データの更新
     // 第１引数：更新する波形データ
@@ -131,18 +149,18 @@ public class WaveManager extends Thread{
         WLog.d(this, "nextDataUpdate()");
 
         boolean loopOn = true;
-        while(loopOn) {
+        while (loopOn) {
             //------------------------------------------------------------------------------------------
             // 波形データの更新
             //------------------------------------------------------------------------------------------
-            synchronized(nextDataLock) {
+            synchronized (nextDataLock) {
                 //次の波形データを受け入れ可能な状態かどうかを確認
                 if (this.allready) {
                     //未処理の場合は、処理済みになるのを待つ。
                     try {
                         WLog.d(this, "未処理のため、処理済みになるのを待つ");
                         wait();
-                    } catch (InterruptedException e){
+                    } catch (InterruptedException e) {
                         WLog.d(this, "AudioTrackWrapperより通知あり");
                     }
                 } else {
@@ -165,6 +183,7 @@ public class WaveManager extends Thread{
             }
         }
     }
+
     //----------------------------------------------------------------------------------------------
     // 名称    ：次の波形データの取得
     // 処理概要：アクティブな音源から波形データを編集して返却する。
@@ -183,7 +202,7 @@ public class WaveManager extends Thread{
         //------------------------------------------------------------------------------------------
         // アクティブな音源の存在確認
         //------------------------------------------------------------------------------------------
-        if ((activeNotes == null)||(activeNotes.size() == 0)) {
+        if ((activeNotes == null) || (activeNotes.size() == 0)) {
             WLog.d(this, "アクティブな音源が存在しない");
             return null;
         }
@@ -203,7 +222,7 @@ public class WaveManager extends Thread{
         //------------------------------------------------------------------------------------------
         // すべてのアクティブな音源から波形データを獲得して足し合わせる。
         //------------------------------------------------------------------------------------------
-        for(Map.Entry<String, ActiveNote> entry : activeNotes.entrySet()) {
+        for (Map.Entry<String, ActiveNote> entry : activeNotes.entrySet()) {
             //キー
             String key = entry.getKey();
             //実体
@@ -229,4 +248,25 @@ public class WaveManager extends Thread{
         return rets;
     }
 
+    //----------------------------------------------------------------------------------------------
+    // 名称    ：次の波形データの取得
+    // 処理概要：アクティブな音源から波形データを編集して返却する。
+    //           AudioTrackWrapperとのIFとなる。
+    // 注意点  ：このメソッド呼び出し時には、「nextDataLock」のロックを取得しておく必要がある。
+    // 戻り値　：１ループバッファ分の波形データ
+    //----------------------------------------------------------------------------------------------
+    public byte[] getNextData8bit() {
+        return this.nextData8bit;
+    }
+
+    //----------------------------------------------------------------------------------------------
+    // 名称    ：次の波形データの取得
+    // 処理概要：アクティブな音源から波形データを編集して返却する。
+    //           AudioTrackWrapperとのIFとなる。
+    // 注意点  ：このメソッド呼び出し時には、「nextDataLock」のロックを取得しておく必要がある。
+    // 戻り値　：１ループバッファ分の波形データ
+    //----------------------------------------------------------------------------------------------
+    public short[] getNextData16bit() {
+        return this.nextData16bit;
+    }
 }
