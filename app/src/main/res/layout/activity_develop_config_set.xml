@@ -52,7 +52,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:layout_marginStart="8dp"
-                android:text="モノ／ステレオ"
+                android:text="モノ／ステレオ(未実装)"
                 android:textAppearance="@style/TextAppearance.AppCompat"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

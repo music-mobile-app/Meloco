@@ -36,14 +36,26 @@ public class AudioController {
 
     }
     //--------------------------------------------------------------------------------
-    // オーディオ再開
+    // オーディオストップ
     //--------------------------------------------------------------------------------
-    public static void audioReStart() {
+    public static void audioStop() {
 
-        WLog.d("audioReStart()");
+        WLog.d("audioStop()");
+
+        if (waveManager == null) {
+            //まだAudioを開始していない状況の場合、なにも行わない。
+            WLog.d("Audioはまだ開始していない。");
+            return;
+        }
 
         // オーディオの停止
         waveManager.stopFlg = true;
+
+        // 待ちの解消
+        synchronized (waveManager.waveDataAccess) {
+            WLog.d("waveDataAccess待ちの解消");
+            waveManager.waveDataAccess.notifyAll();
+        }
 
         //---------------------------------------------------------------------------
         // きちんと停止したかどうかのチェック
@@ -63,8 +75,6 @@ public class AudioController {
                 WLog.d("１秒経過");
             }
         }
-        //再起動
-        audioStart();
     }
     //--------------------------------------------------------------------------------
     //   発音開始

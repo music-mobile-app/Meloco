@@ -9,7 +9,7 @@ import jp.excd.meloco.utility.CommonUtil;
 public class WLog {
 
     //ログの出力有無
-    public static boolean on = false;
+    public static boolean on = true;
 
     //----------------------------------------------------------------------------------------------
     // デバッグログのラッパー

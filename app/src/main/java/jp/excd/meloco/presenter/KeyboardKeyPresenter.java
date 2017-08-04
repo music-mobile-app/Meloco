@@ -52,22 +52,31 @@ public class KeyboardKeyPresenter implements View.OnTouchListener {
         WLog.d(this, "onTouch");
 
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            WLog.d(this,"ACTION_DOWN");
             //押したときの動作
             //--------------------------------------------------------------------
             // 実験用のコード
             //--------------------------------------------------------------------
-            Log.d("TEST888","押した");
             WLog.d(this,"note=" + this.note);
 
             //発音
             this.activeNoteKey = AudioController.noteOn(SoundSourceType.SINE_WAVE, this.note, 100);
             //this.activeNoteKey = AudioEngine.noteOn(SoundSourceType.SINE_WAVE, this.note, 100);
             //AudioTrackSin.play(1, true);
+            //AudioTrackSin.play16bit(1);
 
+            //ACTION_UPも受け取る。
+            return true;
 
         } else if (event.getAction() == MotionEvent.ACTION_UP) {
+            WLog.d(this,"ACTION_UP");
             //離したときの動作
-            Log.d("TEST888","離した");
+            AudioController.noteOff(this.activeNoteKey);
+            //AudioEngine.noteOff(this.activeNoteKey);
+
+        } else if (event.getAction() == MotionEvent.ACTION_CANCEL) {
+            WLog.d(this,"ACTION_CANCEL");
+            //離したときの動作
             AudioController.noteOff(this.activeNoteKey);
             //AudioEngine.noteOff(this.activeNoteKey);
         }

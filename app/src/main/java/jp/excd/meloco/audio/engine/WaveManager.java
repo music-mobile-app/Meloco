@@ -114,6 +114,11 @@ public class WaveManager extends Thread {
         WLog.d(this, "AudioWrapperにも、音源生成が終了したことを伝える。");
         this.audioTrackToStop = true;
 
+        //WaveManagerからの通知待ちの可能性があるので、待ちの解消を行う。
+        synchronized (nextDataLock) {
+            WLog.d(this, "AudioTrackWrapperの待ちの解消");
+            nextDataLock.notifyAll();
+        }
         //自分自身を初期化
         me = null;
     }

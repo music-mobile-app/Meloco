@@ -26,6 +26,8 @@ public class AudioTrackSin extends Thread {
     public static int addData = 0;
     //ループフラグ
     public boolean onLoop = true;
+    //16ビットフラグ
+    public boolean bit16 = false;
 
     //-------------------------------------------------------
     // コンストラクタ
@@ -69,7 +71,7 @@ public class AudioTrackSin extends Thread {
         //秒数をループ回数に直す。
         this.length = (sizeFor1sec * length);
         this.streamMode = streamMode;
-        nonStopMode = nonStopMode;
+        this.nonStopMode = nonStopMode;
     }
     //-------------------------------------------------------
     // 再生メソッド
@@ -95,6 +97,19 @@ public class AudioTrackSin extends Thread {
             //起動
             ads.start();
         }
+    }
+    //-------------------------------------------------------
+    // 再生メソッド(16bit)
+    //  第１引数 length 音の長さを秒単位で指定。
+    //----------------------------------------------------
+    public static void play16bit(int length) {
+
+        //スレッドを生成
+        AudioTrackSin ads = new AudioTrackSin(length);
+        //16ビットモード
+        ads.bit16 = true;
+        //起動
+        ads.start();
     }
     //-------------------------------------------------------
     // 再生メソッド
@@ -148,13 +163,26 @@ public class AudioTrackSin extends Thread {
                 //---------------------------------------------------
                 // スタティックモードの場合
                 //---------------------------------------------------
-                track = new AudioTrack(
-                        AudioManager.STREAM_MUSIC,
-                        44100,
-                        AudioFormat.CHANNEL_OUT_MONO,
-                        AudioFormat.ENCODING_DEFAULT,
-                        44100,
-                        AudioTrack.MODE_STATIC);
+                if (this.bit16) {
+                    //16ビットモードの場合
+                    track = new AudioTrack(
+                            AudioManager.STREAM_MUSIC,
+                            44100,
+                            AudioFormat.CHANNEL_OUT_MONO,
+                            AudioFormat.ENCODING_PCM_16BIT,
+                            44100,
+                            AudioTrack.MODE_STATIC);
+
+                } else {
+                    //8ビットモードの場合
+                    track = new AudioTrack(
+                            AudioManager.STREAM_MUSIC,
+                            44100,
+                            AudioFormat.CHANNEL_OUT_MONO,
+                            AudioFormat.ENCODING_DEFAULT,
+                            44100,
+                            AudioTrack.MODE_STATIC);
+                }
             }
         }
 
@@ -162,6 +190,7 @@ public class AudioTrackSin extends Thread {
         //byte[] sinWave = new byte[44100];
         //任意の回数
         byte[] sinWave = new byte[this.loopBuffer];
+        short[] sinWave16 = new short[this.loopBuffer];
 
         double freq_c3 = 261.6256;
         double freq_e3 = 329.6276;
@@ -189,9 +218,7 @@ public class AudioTrackSin extends Thread {
         //  指定された秒数分繰り返す。
         //----------------------------------------------
         for (int i = 0; i < this.length; i++ ) {
-            Log.d(CommonUtil.tag(this),"データ書き込み");
             //サイン波の合成
-            Log.d(CommonUtil.tag(this),"サイン波の合成(c3のみ)");
             for (int j = 0; j < sinWave.length; j++, t += dt) {
                 /*
                 double sum = Math.sin(2.0 * Math.PI * t * freq_c3)
@@ -200,13 +227,22 @@ public class AudioTrackSin extends Thread {
                 sinWave[j] = (byte) (Byte.MAX_VALUE * (sum/3));
                 */
                 double d = Math.sin(2.0 * Math.PI * t * freq_c3);
-                sinWave[j] = (byte)(Byte.MAX_VALUE * d);
+                if (this.bit16) {
+                    sinWave16[j] = (short)(Short.MAX_VALUE * d);
+                } else {
+                    sinWave[j] = (byte) (Byte.MAX_VALUE * d);
+                }
             }
-            for ( byte b: sinWave) {
-                Log.d("TEST99", "d=" + b);
+            if (this.bit16) {
+                for (int k =0; k < sinWave16.length; k++) {
+                    Log.d(CommonUtil.tag(this),"sinWave16[k]=" + sinWave16[k]);
+                }
+                //16ビットモードの場合
+                track.write(sinWave16, 0, sinWave16.length);
+            } else {
+                //8ビットモードの場合
+                track.write(sinWave, 0, sinWave.length);
             }
-            //ここでブロック
-            track.write(sinWave, 0, sinWave.length);
         }
         //--------------------------------------------------------------
         // ストリームモードでない場合は、データを設定してから起動
@@ -216,29 +252,32 @@ public class AudioTrackSin extends Thread {
             Log.d(CommonUtil.tag(this),"起動");
             track.play();
         }
-        //--------------------------------------------------------------
-        // ノンストップモードの場合
-        //--------------------------------------------------------------
-        while(onLoop) {
-            Log.d(CommonUtil.tag(this), "ノンストップモード");
-            if (addData > 0) {
-                for (int i = 0; i < addData; i++ ) {
-                    Log.d(CommonUtil.tag(this),"データ書き込み");
-                    //サイン波の合成
-                    Log.d(CommonUtil.tag(this),"サイン波の合成(c3のみ)");
-                    for (int j = 0; j < sinWave.length; j++, t += dt) {
-                        double d = Math.sin(2.0 * Math.PI * t * freq_c3);
-                        sinWave[j] = (byte) (Byte.MAX_VALUE * d);
+        if (nonStopMode) {
+            //--------------------------------------------------------------
+            // ノンストップモードの場合
+            //--------------------------------------------------------------
+            while(onLoop) {
+                Log.d(CommonUtil.tag(this), "ノンストップモード");
+                if (addData > 0) {
+                    for (int i = 0; i < addData; i++) {
+                        Log.d(CommonUtil.tag(this), "データ書き込み");
+                        //サイン波の合成
+                        Log.d(CommonUtil.tag(this), "サイン波の合成(c3のみ)");
+                        for (int j = 0; j < sinWave.length; j++, t += dt) {
+                            double d = Math.sin(2.0 * Math.PI * t * freq_c3);
+                            sinWave[j] = (byte) (Byte.MAX_VALUE * d);
+                        }
+                        //ここでブロック
+                        track.write(sinWave, 0, sinWave.length);
                     }
-                    //ここでブロック
-                    track.write(sinWave, 0, sinWave.length);
+                }
+                addData = 0;
+                //スリープ
+                try {
+                    Thread.sleep(10); //10ミリ秒Sleepする
+                } catch (InterruptedException e) {
                 }
             }
-            addData = 0;
-            //スリープ
-            try{
-                Thread.sleep(10); //10ミリ秒Sleepする
-            }catch(InterruptedException e){}
         }
     }
     //-------------------------------------------------------

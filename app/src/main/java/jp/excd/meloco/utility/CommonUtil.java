@@ -104,7 +104,7 @@ public class CommonUtil {
         if (AudioConfig.AUDIO_FORMAT == AudioFormat.ENCODING_PCM_8BIT) {
             ret = compressWaveData(inI, Byte.MIN_VALUE, Byte.MAX_VALUE);
         } else if (AudioConfig.AUDIO_FORMAT == AudioFormat.ENCODING_PCM_16BIT) {
-            ret = compressWaveData(inI, Short.MIN_VALUE, Short.MIN_VALUE);
+            ret = compressWaveData(inI, Short.MIN_VALUE, Short.MAX_VALUE);
         }
         return ret;
     }
