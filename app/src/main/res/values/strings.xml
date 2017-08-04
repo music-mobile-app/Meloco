@@ -24,4 +24,5 @@
     </string-array>
     <string name="menu_list_add_for_develop">開発メニュー</string>
     <string name="close">閉じる</string>
+    <string name="restart">オーディオ再起動</string>
 </resources>

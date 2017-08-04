@@ -9,7 +9,8 @@ import android.media.AudioManager;
 
 public class AudioConfig {
 
-    public static final int SAMPLE_RATE = 44100;
+    // サンプリングレート
+    public static int SAMPLE_RATE = 44100;
 
     // ストリームタイプ(音楽)
     public static int STREAM_TYPE = AudioManager.STREAM_MUSIC;
@@ -27,7 +28,7 @@ public class AudioConfig {
     public static int FADEOUT_FRAME_SIZE = 4410;
 
     // 元音の振幅倍率(%)
-    public static int SOURCE_SOUND_RANGE = 40;
+    public static int SOURCE_SOUND_RANGE = 80;
 
     // リミッティング敷居値
     public static int COMPRESS_BORDER = 80;

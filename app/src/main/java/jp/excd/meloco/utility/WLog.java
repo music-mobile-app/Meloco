@@ -4,13 +4,12 @@
 package jp.excd.meloco.utility;
 
 import android.util.Log;
-
 import jp.excd.meloco.utility.CommonUtil;
 
 public class WLog {
 
     //ログの出力有無
-    public static boolean on = true;
+    public static boolean on = false;
 
     //----------------------------------------------------------------------------------------------
     // デバッグログのラッパー

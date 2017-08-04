@@ -5,25 +5,24 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import jp.excd.meloco.audio.AudioEngine;
+import jp.excd.meloco.audio.engine.AudioController;
 import jp.excd.meloco.constant.SoundSourceType;
-import jp.excd.meloco.utility.CommonUtil;
 import jp.excd.meloco.sample.AudioTrackSin;
-
-/**
- * Created by w-nishie on 2017/07/14.
- */
+import jp.excd.meloco.utility.CommonUtil;
+import jp.excd.meloco.utility.WLog;
 
 public class KeyboardKeyPresenter implements View.OnTouchListener {
 
-    //Viewのid
+    // Viewのid
     private int viewId;
-    //音程
+    // 音程
     private String note;
-    //キーボードの表示段
+    // キーボードの表示段
     private String verticalPosition;
-    //キーボードの表示段の定数
+    // キーボードの表示段の定数
     public static final String LOWER = "LOWER";
     public static final String UPPER = "UPPER";
+
     //TODO ボタンの押下状態
     private boolean buttonOn = false;
     //TODO ボタンの押下回数
@@ -38,7 +37,8 @@ public class KeyboardKeyPresenter implements View.OnTouchListener {
     //-----------------------------------------------------------
     public KeyboardKeyPresenter(int viewId, String note, String verticalPosition) {
 
-        Log.d(CommonUtil.tag(this), "コンストラクタ実行");
+
+        WLog.d(this, "コンストラクタ実行");
 
         this.viewId = viewId;
         this.note = note;
@@ -49,42 +49,27 @@ public class KeyboardKeyPresenter implements View.OnTouchListener {
     //------------------------------------------------------------------
     public boolean onTouch(View v, MotionEvent event) {
 
-        Log.d(CommonUtil.tag(this), "onTouch");
+        WLog.d(this, "onTouch");
 
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             //押したときの動作
             //--------------------------------------------------------------------
             // 実験用のコード
             //--------------------------------------------------------------------
-            Log.d(CommonUtil.tag(this),"押した");
-            Log.d(CommonUtil.tag(this),"note=" + this.note);
+            Log.d("TEST888","押した");
+            WLog.d(this,"note=" + this.note);
 
             //発音
-            this.activeNoteKey = AudioEngine.noteOn(SoundSourceType.SINE_WAVE, this.note, 100);
-            /*
+            this.activeNoteKey = AudioController.noteOn(SoundSourceType.SINE_WAVE, this.note, 100);
+            //this.activeNoteKey = AudioEngine.noteOn(SoundSourceType.SINE_WAVE, this.note, 100);
+            //AudioTrackSin.play(1, true);
 
-            if (buttonOn) {
-                //TODO サイン波を停止する。
-                Log.d(CommonUtil.tag(this),"サイン波を停止する");
-                AudioTrackSin.stopPlay();
-                this.buttonOn = false;
-            } else {
-                //TODO サイン波を鳴らす。
-                Log.d(CommonUtil.tag(this), "サイン波を鳴らす");
-                //偶数会の場合は、ストリームモード
-                this.buttonTouchCount = this.buttonTouchCount + 1;
-                //ストリームモード
-                Log.d(CommonUtil.tag(this), "ストリームモードで鳴らす");
-                Log.d(CommonUtil.tag(this), "ノンストップモード");
-                AudioTrackSin.play(this.buttonTouchCount, true,true);
-                this.buttonOn = true;
-            }
-            */
 
         } else if (event.getAction() == MotionEvent.ACTION_UP) {
             //離したときの動作
-            Log.d(CommonUtil.tag(this),"離した");
-            AudioEngine.noteOff(this.activeNoteKey);
+            Log.d("TEST888","離した");
+            AudioController.noteOff(this.activeNoteKey);
+            //AudioEngine.noteOff(this.activeNoteKey);
         }
         return false;
     }

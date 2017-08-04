@@ -4,6 +4,8 @@
 package jp.excd.meloco.utility;
 
 import android.media.AudioFormat;
+import android.util.Log;
+
 import jp.excd.meloco.utility.WLog;
 
 import jp.excd.meloco.audio.engine.AudioConfig;
@@ -77,6 +79,7 @@ public class CommonUtil {
     // 戻り値　：圧縮後のshort配列
     //----------------------------------------------------------------------------------------------
     public static short[] compressWaveData(int[] is) {
+
         //返却する配列
         short[] rets = new short[is.length];
 
@@ -94,14 +97,16 @@ public class CommonUtil {
     //----------------------------------------------------------------------------------------------
     public static short compressWaveData(int inI) {
 
+        short ret = 0;
         //------------------------------------------------------------------------------------------
         // エンコーディングのフォーマットの判断
         //------------------------------------------------------------------------------------------
         if (AudioConfig.AUDIO_FORMAT == AudioFormat.ENCODING_PCM_8BIT) {
-            return compressWaveData(inI, Short.MIN_VALUE, Short.MIN_VALUE);
+            ret = compressWaveData(inI, Byte.MIN_VALUE, Byte.MAX_VALUE);
         } else if (AudioConfig.AUDIO_FORMAT == AudioFormat.ENCODING_PCM_16BIT) {
-            return compressWaveData(inI, Byte.MIN_VALUE, Byte.MAX_VALUE);
+            ret = compressWaveData(inI, Short.MIN_VALUE, Short.MIN_VALUE);
         }
+        return ret;
     }
     //----------------------------------------------------------------------------------------------
     // 名称    ：波形データの圧縮
@@ -126,10 +131,14 @@ public class CommonUtil {
         int border = AudioConfig.COMPRESS_BORDER;
         WLog.d("border=" + border);
 
-        int lowLimit = (minValue * (border / 100));
+        double dBorder = (double)border;
+        double per = (double)(dBorder / 100.0);
+
+        int lowLimit = (int)(minValue * per);
         WLog.d("lowLimit=" + lowLimit);
 
-        int highLimit = (maxValue * (border / 100));
+
+        int highLimit = (int)(maxValue * per);
         WLog.d("highLimit=" + highLimit);
 
         //------------------------------------------------------------------------------------------

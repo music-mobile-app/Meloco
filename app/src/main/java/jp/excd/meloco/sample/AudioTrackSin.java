@@ -138,7 +138,7 @@ public class AudioTrackSin extends Thread {
                 // AudioTrackをストリームモードで作成
                 track = new AudioTrack(
                         AudioManager.STREAM_MUSIC,
-                        44100,
+                        22100,
                         AudioFormat.CHANNEL_OUT_MONO,
                         AudioFormat.ENCODING_DEFAULT,
                         //バッファサイズを、フォーマット上の最小値に設定
@@ -201,6 +201,9 @@ public class AudioTrackSin extends Thread {
                 */
                 double d = Math.sin(2.0 * Math.PI * t * freq_c3);
                 sinWave[j] = (byte)(Byte.MAX_VALUE * d);
+            }
+            for ( byte b: sinWave) {
+                Log.d("TEST99", "d=" + b);
             }
             //ここでブロック
             track.write(sinWave, 0, sinWave.length);
