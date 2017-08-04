@@ -23,6 +23,9 @@ public class MenuActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
 
+        //画面表示時のアニメーション指定
+        overridePendingTransition(R.animator.slide_in_left, R.animator.slide_out_left);
+
         //メニューに表示する項目を、resから取得する。
         Resources res = getResources();
         String[] arr = res.getStringArray(R.array.menu_list);

@@ -1,6 +1,7 @@
 package jp.excd.meloco.presenter;
 
 import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.util.Log;
 import android.view.View;
@@ -43,10 +44,14 @@ public class ButtonMenuPresenter implements OnClickListener {
         //インテントの作成
         Intent intent = new Intent(parentActivity, MenuActivity.class);
 
+        //----------------------------------------------------------------------------------------------
         //画面遷移
-        parentActivity.startActivity(intent);
-
-
+        //アニメーションさせる。(メニューボタンから出てくる感じ)
+        //----------------------------------------------------------------------------------------------
+        Button b = (Button)parentActivity.findViewById(R.id.buttonMenu);
+        parentActivity.startActivity(intent,
+                ActivityOptions.makeSceneTransitionAnimation(parentActivity, b, "image").toBundle());
+        //parentActivity.startActivity(intent);
     }
 
 }

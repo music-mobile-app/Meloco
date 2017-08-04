@@ -1254,6 +1254,18 @@
                 app:layout_constraintLeft_toLeftOf="@+id/imageButtonUpperC6"
                 android:layout_marginLeft="230dp"/>
 
+            <!---TODO アルファ値の設定(完全透明にする) -->
+            <ImageButton
+                android:id="@+id/imageViewScroller"
+                android:layout_width="1160dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="0dp"
+                android:layout_marginTop="0dp"
+                app:layout_constraintLeft_toLeftOf="@+id/imageButtonUpperC3"
+                app:layout_constraintTop_toTopOf="@+id/imageButtonUpperC3"
+                android:background="@drawable/scroller"
+                android:scaleType="fitXY"/>
+
         </android.support.constraint.ConstraintLayout>
     </HorizontalScrollView>
 </android.support.constraint.ConstraintLayout>
