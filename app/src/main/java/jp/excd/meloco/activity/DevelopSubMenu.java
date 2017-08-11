@@ -60,6 +60,16 @@ public class DevelopSubMenu extends AppCompatActivity {
                     startActivity(intent);
 
                 }
+                if (str.equals("オーディオ実験")) {
+                    //オーディオ実験画面
+
+                    //インテントの作成
+                    Intent intent = new Intent(getApplication(), AudioTestActivity.class);
+
+                    //画面遷移
+                    startActivity(intent);
+
+                }
 
             }
         });

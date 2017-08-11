@@ -18,7 +18,8 @@
         </activity>
         <activity android:name=".activity.MenuActivity" />
         <activity android:name=".activity.DevelopConfigSetActivity" />
-        <activity android:name=".activity.DevelopSubMenu"></activity>
+        <activity android:name=".activity.DevelopSubMenu" />
+        <activity android:name=".activity.AudioTestActivity"></activity>
     </application>
 
 </manifest>
