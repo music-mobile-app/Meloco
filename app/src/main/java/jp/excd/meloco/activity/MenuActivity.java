@@ -76,7 +76,7 @@ public class MenuActivity extends AppCompatActivity {
                     //開発メニューオープン
 
                     //インテントの作成
-                    Intent intent = new Intent(getApplication(), DevelopConfigSetActivity.class);
+                    Intent intent = new Intent(getApplication(), DevelopSubMenu.class);
 
                     //画面遷移
                     startActivity(intent);

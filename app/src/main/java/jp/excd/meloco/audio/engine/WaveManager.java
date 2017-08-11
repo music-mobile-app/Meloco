@@ -11,7 +11,9 @@ package jp.excd.meloco.audio.engine;
 import android.media.AudioFormat;
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import jp.excd.meloco.audio.engine.ActiveNote;
 import jp.excd.meloco.constant.SoundSourceType;
@@ -258,11 +260,15 @@ public class WaveManager extends Thread {
         //------------------------------------------------------------------------------------------
         // すべてのアクティブな音源から波形データを獲得して足し合わせる。
         //------------------------------------------------------------------------------------------
-        for (Map.Entry<String, ActiveNote> entry : activeNotes.entrySet()) {
-            //キー
-            String key = entry.getKey();
+        // ループ内で、ノードを削除する（キーの増減がおこる）ので、
+        // ループの前にキーの配列をコピーしておく。
+        List<String> itemIdList = new ArrayList<String>(activeNotes.keySet());
+
+        // キー配列をループ
+        for(String key : itemIdList) {
+
             //実体
-            ActiveNote activeNote = entry.getValue();
+            ActiveNote activeNote = activeNotes.get(key);
             //波形の取得
             int[] targetWave = activeNote.getAndUpdateWaveData();
 
