@@ -29,4 +29,6 @@
         <item>オーディオ設定</item>
         <item>オーディオ実験</item>
     </string-array>
+    <string name="buttonPlay1secSinStatic">1秒Staticサイン派再生</string>
+    <string name="buttonPlay1secSinStatic16bit">1秒Staticサイン派再生(16bit)</string>
 </resources>
