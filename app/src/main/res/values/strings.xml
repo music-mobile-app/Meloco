@@ -31,4 +31,6 @@
     </string-array>
     <string name="buttonPlay1secSinStatic">1秒Staticサイン派再生</string>
     <string name="buttonPlay1secSinStatic16bit">1秒Staticサイン派再生(16bit)</string>
+    <string name="buttonPlaySinStream16bit">Streamサイン派再生(16bit)(START)</string>
+    <string name="buttonStopSinStream16bit">Streamサイン派再生(16bit)(STOP)</string>
 </resources>

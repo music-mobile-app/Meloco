@@ -19,7 +19,8 @@ public class AudioConfig {
     public static int CHANNEL_CONFIG = AudioFormat.CHANNEL_OUT_MONO;
 
     // オーディオフォーマット(8bit(TODO:後に16bit化する。)
-    public static int AUDIO_FORMAT = AudioFormat.ENCODING_PCM_8BIT;
+    public static int AUDIO_FORMAT = AudioFormat.ENCODING_PCM_16BIT;
+    //public static int AUDIO_FORMAT = AudioFormat.ENCODING_PCM_8BIT;
 
     // ループバッファ(フレーム数)
     public static int LOOP_BUFFER_SIZE = 128;

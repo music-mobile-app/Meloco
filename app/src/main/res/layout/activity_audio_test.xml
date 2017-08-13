@@ -73,6 +73,68 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp" />
 
+            <Button
+                android:id="@+id/buttonPlaySinStream16bit"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/buttonPlaySinStream16bit"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/buttonPlay1secSinStatic16bit"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp" />
+
+            <!-- Volume -->
+            <TextView
+                android:id="@+id/textViewLabelVolume"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="20dp"
+                android:text="ヴォリューム"
+                android:textAppearance="@style/TextAppearance.AppCompat"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/buttonPlaySinStream16bit" />
+
+            <TextView
+                android:id="@+id/textViewValueVolume"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="20dp"
+                android:text="32767"
+                android:textAppearance="@style/TextAppearance.AppCompat"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewLabelVolume" />
+
+            <SeekBar
+                android:id="@+id/seekBarVolume"
+                android:layout_width="200dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="0dp"
+                app:layout_constraintLeft_toRightOf="@+id/textViewValueVolume"
+                android:progress="32767"
+                android:max="32767"
+                app:layout_constraintTop_toTopOf="@+id/textViewValueVolume" />
+
+            <Button
+                android:id="@+id/buttonStopSinStream16bit"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/buttonStopSinStream16bit"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textViewValueVolume"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp" />
+
         </android.support.constraint.ConstraintLayout>
     </ScrollView>
 
