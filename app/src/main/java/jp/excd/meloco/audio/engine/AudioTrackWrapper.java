@@ -65,6 +65,9 @@ public class AudioTrackWrapper extends Thread{
         if (me == null) {
             //最初の１度だけインスタンスを生成する。
             me = new AudioTrackWrapper(waveManager);
+
+            WLog.d("MAX_PRIORIT");
+            me.setPriority(Thread.MAX_PRIORITY);
         }
         //すでにインスタンスがある場合は、WaveManagerの参照だけを入れ替える。
         me.setWaveManager(waveManager);
@@ -103,8 +106,8 @@ public class AudioTrackWrapper extends Thread{
     //----------------------------------------------------------------------------------------------
     public void run() {
 
-        WLog.d(this, "priority=" + AudioConfig.AUDIO_TRACK_WRAPPER_PRIORITY);
-        android.os.Process.setThreadPriority(AudioConfig.AUDIO_TRACK_WRAPPER_PRIORITY);
+        //WLog.d(this, "priority=" + AudioConfig.AUDIO_TRACK_WRAPPER_PRIORITY);
+        //android.os.Process.setThreadPriority(AudioConfig.AUDIO_TRACK_WRAPPER_PRIORITY);
 
         boolean loopFlg = true;
         while(loopFlg) {
