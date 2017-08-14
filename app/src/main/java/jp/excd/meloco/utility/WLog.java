@@ -8,8 +8,8 @@ import jp.excd.meloco.utility.CommonUtil;
 
 public class WLog {
 
-    //ログの出力有無
-    public static boolean on = true;
+    //ログの出力有無(true:あり、false:なし)
+    public static boolean on = false;
 
     //----------------------------------------------------------------------------------------------
     // デバッグログのラッパー

@@ -105,6 +105,9 @@ public class WaveManager extends Thread {
     //----------------------------------------------------------------------------------------------
     public void run() {
 
+        WLog.d(this, "priority=" + AudioConfig.WAVE_MANAGER_PRIORITY);
+        android.os.Process.setThreadPriority(AudioConfig.WAVE_MANAGER_PRIORITY);
+
         WLog.d(this, "スレッド実行");
 
         //強制終了フラグたつまで、ループし続ける。

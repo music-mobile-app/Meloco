@@ -33,4 +33,8 @@
     <string name="buttonPlay1secSinStatic16bit">1秒Staticサイン派再生(16bit)</string>
     <string name="buttonPlaySinStream16bit">Streamサイン派再生(16bit)(START)</string>
     <string name="buttonStopSinStream16bit">Streamサイン派再生(16bit)(STOP)</string>
+    <string name="buttonPlaySinStream16bitHalfRate">Streamサイン派再生(16bit(レート半分))(START)</string>
+    <string name="buttonStopSinStream16bitHalfRate">Streamサイン派再生(16bit(レート半分))(STOP)</string>
+    <string name="buttonPlaySinStream16bitPriority">Streamサイン派再生(16bit)(START)(プライオリティー)</string>
+    <string name="buttonStopSinStream16bitPriority">Streamサイン派再生(16bit)(STOP)(プライオリティー)</string>
 </resources>

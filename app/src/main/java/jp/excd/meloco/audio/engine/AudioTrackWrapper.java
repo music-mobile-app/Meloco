@@ -103,7 +103,8 @@ public class AudioTrackWrapper extends Thread{
     //----------------------------------------------------------------------------------------------
     public void run() {
 
-
+        WLog.d(this, "priority=" + AudioConfig.AUDIO_TRACK_WRAPPER_PRIORITY);
+        android.os.Process.setThreadPriority(AudioConfig.AUDIO_TRACK_WRAPPER_PRIORITY);
 
         boolean loopFlg = true;
         while(loopFlg) {

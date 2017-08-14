@@ -18,7 +18,7 @@ public class AudioConfig {
     // チャネル定義(モノラル(TODO：後にステレオ化する。)
     public static int CHANNEL_CONFIG = AudioFormat.CHANNEL_OUT_MONO;
 
-    // オーディオフォーマット(8bit(TODO:後に16bit化する。)
+    // オーディオフォーマット(16bit)
     public static int AUDIO_FORMAT = AudioFormat.ENCODING_PCM_16BIT;
     //public static int AUDIO_FORMAT = AudioFormat.ENCODING_PCM_8BIT;
 
@@ -29,8 +29,14 @@ public class AudioConfig {
     public static int FADEOUT_FRAME_SIZE = 4410;
 
     // 元音の振幅倍率(%)
-    public static int SOURCE_SOUND_RANGE = 80;
+    public static int SOURCE_SOUND_RANGE = 25;
 
     // リミッティング敷居値
     public static int COMPRESS_BORDER = 80;
+
+    // AudioTrakWrapperのプライオリティー
+    public static int AUDIO_TRACK_WRAPPER_PRIORITY = -8;
+
+    // WaveManagerのプライオリティー
+    public static int WAVE_MANAGER_PRIORITY = -4;
 }

@@ -12,6 +12,8 @@ import jp.excd.meloco.audio.engine.AudioConfig;
 import jp.excd.meloco.sample.AudioTest001;
 import jp.excd.meloco.sample.AudioTest002;
 import jp.excd.meloco.sample.AudioTest003;
+import jp.excd.meloco.sample.AudioTest004;
+import jp.excd.meloco.sample.AudioTest005;
 import jp.excd.meloco.utility.WLog;
 
 public class AudioTestActivity extends AppCompatActivity {
@@ -81,6 +83,48 @@ public class AudioTestActivity extends AppCompatActivity {
         });
         //VOLUMEのコントローラの設定
         initVolume();
+
+        //サイン派をSTREAM発音(16bit(レート半分))
+        final Button buttonPlaySinStream16bitHalfRate = (Button) this.findViewById(R.id.buttonPlaySinStream16bitHalfRate);
+        buttonPlaySinStream16bitHalfRate.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                WLog.d(this,"サイン派をstream再生(16bit)(レート半分)");
+                AudioTest004.play();
+            }
+        });
+        //サイン派をSTREAM停止(16bit)
+        final Button buttonStopSinStream16bitHalfRate = (Button) this.findViewById(R.id.buttonStopSinStream16bitHalfRate);
+        buttonStopSinStream16bitHalfRate.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                WLog.d(this,"サイン派STREAM再生を停止(レート半分)");
+                AudioTest004.playStop();
+            }
+        });
+
+        //サイン派をSTREAM発音(16bit(レート半分))
+        final Button buttonPlaySinStream16bitPriority = (Button) this.findViewById(R.id.buttonPlaySinStream16bitPriority);
+        buttonPlaySinStream16bitPriority.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                WLog.d(this,"サイン派をstream再生(16bit)(プライオリティー)");
+                AudioTest005.play();
+            }
+        });
+        //サイン派をSTREAM停止(16bit)
+        final Button buttonStopSinStream16bitPriority = (Button) this.findViewById(R.id.buttonStopSinStream16bitPriority);
+        buttonStopSinStream16bitPriority.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                WLog.d(this,"サイン派STREAM再生を停止(プライオリティー)");
+                AudioTest005.playStop();
+            }
+        });
     }
     //--------------------------------------------------------------------------------------------
     // ヴォリュームの初期化

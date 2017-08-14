@@ -12,9 +12,6 @@ import jp.excd.meloco.utility.WLog;
 
 public class SineWave extends ActiveNote {
 
-    //波形算出回数
-    private double cnt = 0.0;
-
     //フェードアウト中フラグ
     private boolean onFadeOut = false;
 
@@ -23,6 +20,9 @@ public class SineWave extends ActiveNote {
 
     //波形計算のステップ(サンプリングレートの逆数
     private double dt = 1.0 / AudioConfig.SAMPLE_RATE;
+
+    //現在の位相
+    private double t = 0.0;
 
     //周波数
     private double freq;
@@ -70,11 +70,11 @@ public class SineWave extends ActiveNote {
             //　sin値を返却する。
             //  ラジアンは以下の式で算出する。
             //  サンプルレートの逆数 * 波形算出回数(※) * 周波数 * パイ * 2
-            //  (※)波形算出回数は、サンプルレートで１回転して元に戻るため、
-            //  サンプルレート数を超えた時点でゼロクリアする。
+            //  (※)サンプルレートの逆数と波形算出回数の乗算は、
+            //      足し算で表す。
             //----------------------------------------------------------------------
             // 振幅の算出
-            double t = dt * cnt;
+            t = t + dt;
             double amplitude = Math.sin(2.0 * Math.PI * t * freq);
             // ボリュームを調整する。
             double volume = (double)((double)AudioConfig.SOURCE_SOUND_RANGE / 100.0);
@@ -85,11 +85,6 @@ public class SineWave extends ActiveNote {
                 sinWave[i] = (byte)(Byte.MAX_VALUE * amplitude);
             } else {
                 sinWave[i] = (short)(Short.MAX_VALUE * amplitude);
-            }
-            //波形算出回数のカウントアップ
-            cnt = cnt + 1;
-            if (cnt >= AudioConfig.SAMPLE_RATE) {
-                cnt = 0;
             }
         }
         //----------------------------------------------------------------------------------------
@@ -104,11 +99,6 @@ public class SineWave extends ActiveNote {
                 this.isEnd = true;
             }
         }
-        /*
-        for(int i: sinWave) {
-            Log.d("TEST3", "i=" + i);
-        }
-        */
         return sinWave;
     }
     //-------------------------------------------------------------------------------
