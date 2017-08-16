@@ -192,7 +192,7 @@
                 android:layout_height="40dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="20dp"
-                android:text="128"
+                android:text="258"
                 android:textAppearance="@style/TextAppearance.AppCompat"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textViewLabelLoopBufferSize" />
@@ -204,11 +204,44 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="0dp"
                 app:layout_constraintLeft_toRightOf="@+id/textViewValueLoopBufferSize"
-                android:progress="128"
-                android:max="44100"
+                android:progress="258"
+                android:max="4410"
                 app:layout_constraintTop_toTopOf="@+id/textViewValueLoopBufferSize" />
 
-            <!-- ループバッファフレーム数 -->
+            <!-- フェードインフレーム数 -->
+            <TextView
+                android:id="@+id/textViewLabelFadeInFrameSize"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="20dp"
+                android:text="フェードインフレーム数"
+                android:textAppearance="@style/TextAppearance.AppCompat"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/seekBarLoopBufferSize" />
+
+            <TextView
+                android:id="@+id/textViewValueFadeInFrameSize"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="20dp"
+                android:text="220"
+                android:textAppearance="@style/TextAppearance.AppCompat"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewLabelFadeInFrameSize" />
+
+            <SeekBar
+                android:id="@+id/seekBarFadeInFrameSize"
+                android:layout_width="200dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="0dp"
+                app:layout_constraintLeft_toRightOf="@+id/textViewValueFadeInFrameSize"
+                android:progress="220"
+                android:max="441"
+                app:layout_constraintTop_toTopOf="@+id/textViewValueFadeInFrameSize" />
+            <!-- フェードアウトフレーム数 -->
             <TextView
                 android:id="@+id/textViewLabelFadeOutFrameSize"
                 android:layout_width="wrap_content"
@@ -218,7 +251,7 @@
                 android:text="フェードアウトフレーム数"
                 android:textAppearance="@style/TextAppearance.AppCompat"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/seekBarLoopBufferSize" />
+                app:layout_constraintTop_toBottomOf="@+id/seekBarFadeInFrameSize" />
 
             <TextView
                 android:id="@+id/textViewValueFadeOutFrameSize"
@@ -226,7 +259,7 @@
                 android:layout_height="40dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="20dp"
-                android:text="4410"
+                android:text="2205"
                 android:textAppearance="@style/TextAppearance.AppCompat"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textViewLabelFadeOutFrameSize" />
@@ -238,8 +271,8 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="0dp"
                 app:layout_constraintLeft_toRightOf="@+id/textViewValueFadeOutFrameSize"
-                android:progress="128"
-                android:max="44100"
+                android:progress="2205"
+                android:max="4410"
                 app:layout_constraintTop_toTopOf="@+id/textViewValueFadeOutFrameSize" />
 
             <!-- 元音の振幅倍率(%) -->

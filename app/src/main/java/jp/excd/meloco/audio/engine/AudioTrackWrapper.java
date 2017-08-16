@@ -66,8 +66,8 @@ public class AudioTrackWrapper extends Thread{
             //最初の１度だけインスタンスを生成する。
             me = new AudioTrackWrapper(waveManager);
 
-            WLog.d("MAX_PRIORIT");
-            me.setPriority(Thread.MAX_PRIORITY);
+            WLog.d("AudioTrackWrapperPriority=" + AudioConfig.WAVE_MANAGER_PRIORITY);
+            me.setPriority(AudioConfig.AUDIO_TRACK_WRAPPER_PRIORITY);
         }
         //すでにインスタンスがある場合は、WaveManagerの参照だけを入れ替える。
         me.setWaveManager(waveManager);

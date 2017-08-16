@@ -1,14 +1,10 @@
 package jp.excd.meloco.presenter;
 
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
-import jp.excd.meloco.audio.AudioEngine;
 import jp.excd.meloco.audio.engine.AudioController;
 import jp.excd.meloco.constant.SoundSourceType;
-import jp.excd.meloco.sample.AudioTrackSin;
-import jp.excd.meloco.utility.CommonUtil;
 import jp.excd.meloco.utility.WLog;
 
 public class KeyboardKeyPresenter implements View.OnTouchListener {
@@ -61,24 +57,19 @@ public class KeyboardKeyPresenter implements View.OnTouchListener {
 
             //発音
             this.activeNoteKey = AudioController.noteOn(SoundSourceType.SINE_WAVE, this.note, 100);
-            //this.activeNoteKey = AudioEngine.noteOn(SoundSourceType.SINE_WAVE, this.note, 100);
-            //AudioTrackSin.play(1, true);
-            //AudioTrackSin.play16bit(1);
 
             //ACTION_UPも受け取る。
-            return true;
+            //return true;
 
         } else if (event.getAction() == MotionEvent.ACTION_UP) {
             WLog.d(this,"ACTION_UP");
             //離したときの動作
             AudioController.noteOff(this.activeNoteKey);
-            //AudioEngine.noteOff(this.activeNoteKey);
 
         } else if (event.getAction() == MotionEvent.ACTION_CANCEL) {
             WLog.d(this,"ACTION_CANCEL");
             //離したときの動作
             AudioController.noteOff(this.activeNoteKey);
-            //AudioEngine.noteOff(this.activeNoteKey);
         }
         return false;
     }

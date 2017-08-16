@@ -23,10 +23,13 @@ public class AudioConfig {
     //public static int AUDIO_FORMAT = AudioFormat.ENCODING_PCM_8BIT;
 
     // ループバッファ(フレーム数)
-    public static int LOOP_BUFFER_SIZE = 128;
+    public static int LOOP_BUFFER_SIZE = 998;
+
+    // フェードインフレーム数
+    public static int FADEIN_FRAME_SIZE = 340;
 
     // フェードアウトフレーム数
-    public static int FADEOUT_FRAME_SIZE = 4410;
+    public static int FADEOUT_FRAME_SIZE = 780;
 
     // 元音の振幅倍率(%)
     public static int SOURCE_SOUND_RANGE = 25;
@@ -35,8 +38,8 @@ public class AudioConfig {
     public static int COMPRESS_BORDER = 80;
 
     // AudioTrakWrapperのプライオリティー
-    public static int AUDIO_TRACK_WRAPPER_PRIORITY = -8;
+    public static int AUDIO_TRACK_WRAPPER_PRIORITY = Thread.MAX_PRIORITY;
 
     // WaveManagerのプライオリティー
-    public static int WAVE_MANAGER_PRIORITY = -4;
+    public static int WAVE_MANAGER_PRIORITY = Thread.MAX_PRIORITY;
 }

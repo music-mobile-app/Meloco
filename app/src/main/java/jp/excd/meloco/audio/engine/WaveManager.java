@@ -97,8 +97,8 @@ public class WaveManager extends Thread {
             //最初の１度だけインスタンスを生成する。
             me = new WaveManager();
 
-            WLog.d("MAX_PRIORIT");
-            me.setPriority(Thread.MAX_PRIORITY);
+            WLog.d("waveManagerPriority=" + AudioConfig.WAVE_MANAGER_PRIORITY);
+            me.setPriority(AudioConfig.WAVE_MANAGER_PRIORITY);
 
         }
         return me;

@@ -50,6 +50,8 @@ public class DevelopConfigSetActivity extends AppCompatActivity {
         initRadioAudioFormat();
         // ループバッファフレーム設定ＵＩの設定
         initLoopBufferSize();
+        // フェードインフレーム設定ＵＩの設定
+        initFadeFrameSize();
         // フェードアウトフレーム設定ＵＩの設定
         initFadeOutFrameSize();
         // 元音の振幅設定ＵＩの設定
@@ -159,6 +161,51 @@ public class DevelopConfigSetActivity extends AppCompatActivity {
 
         //現状の状態を取得
         int active = AudioConfig.LOOP_BUFFER_SIZE;
+
+        //SeekBarの設定値を設定
+        seekBar.setProgress(active);
+
+        //テキストも初期表示
+        textView.setText("" + active);
+
+        //リスナー登録
+        seekBar.setOnSeekBarChangeListener(
+                new SeekBar.OnSeekBarChangeListener() {
+                    @Override
+                    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                        WLog.d(this, "つまみの操作");
+
+                        int pro = seekBar.getProgress();
+                        textView.setText("" + pro);
+                    }
+
+                    @Override
+                    public void onStartTrackingTouch(SeekBar seekBar) {
+
+                    }
+
+                    @Override
+                    public void onStopTrackingTouch(SeekBar seekBar) {
+
+                    }
+                }
+        );
+    }
+    //--------------------------------------------------------------------------------------------
+    // フェードインフレームサイズの初期化
+    //--------------------------------------------------------------------------------------------
+    private void initFadeFrameSize() {
+
+        WLog.d(this, "initFadeInFrameSize()");
+
+        //テキストViewの参照の取得
+        final TextView textView = (TextView)findViewById(R.id.textViewValueFadeInFrameSize);
+
+        //SeekBarの参照の取得
+        SeekBar seekBar = (SeekBar)findViewById(R.id.seekBarFadeInFrameSize);
+
+        //現状の状態を取得
+        int active = AudioConfig.FADEIN_FRAME_SIZE;
 
         //SeekBarの設定値を設定
         seekBar.setProgress(active);
@@ -429,6 +476,14 @@ public class DevelopConfigSetActivity extends AppCompatActivity {
         int active = seekBar.getProgress();
         WLog.d("ループバッファフレーム数" + active);
         AudioConfig.LOOP_BUFFER_SIZE = active;
+
+        //----------------------------------------------------------------------------------------
+        // ■フェードインフレーム数
+        //----------------------------------------------------------------------------------------
+        seekBar = (SeekBar)(me.findViewById(R.id.seekBarFadeInFrameSize));
+        active = seekBar.getProgress();
+        WLog.d("フェードインフレーム数" + active);
+        AudioConfig.FADEIN_FRAME_SIZE = active;
 
         //----------------------------------------------------------------------------------------
         // ■フェードアウトフレーム数

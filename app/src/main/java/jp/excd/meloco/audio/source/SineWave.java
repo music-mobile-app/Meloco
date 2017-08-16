@@ -3,6 +3,7 @@
 //--------------------------------------------------------------------------------------------------
 package jp.excd.meloco.audio.source;
 
+import android.content.Intent;
 import android.media.AudioFormat;
 import android.util.Log;
 
@@ -12,8 +13,14 @@ import jp.excd.meloco.utility.WLog;
 
 public class SineWave extends ActiveNote {
 
+    //フェードイン中フラグ(キータッチの初めからフェードイン）
+    private boolean onFadeIn = true;
+
     //フェードアウト中フラグ
     private boolean onFadeOut = false;
+
+    //フェードインカウンタ
+    private int fadeInCount = 0;
 
     //フェードアウトカウンタ
     private int fadeOutCount = 0;
@@ -88,6 +95,18 @@ public class SineWave extends ActiveNote {
             }
         }
         //----------------------------------------------------------------------------------------
+        //キータッチが始まった時点から、
+        //少しずつフェードインで、波形を形成していく。
+        //ノイズ防止のため
+        //----------------------------------------------------------------------------------------
+        if (this.onFadeIn) {
+            sinWave = fadeIn(sinWave);
+            if (this.fadeInCount >= AudioConfig.FADEIN_FRAME_SIZE) {
+                //終了フラグの設定
+                this.onFadeIn = false;
+            }
+        }
+        //----------------------------------------------------------------------------------------
         //キータッチが終わった時点から、
         //少しずつフェードアウトで、波形を消していく。
         //ノイズ防止のため
@@ -102,12 +121,47 @@ public class SineWave extends ActiveNote {
         return sinWave;
     }
     //-------------------------------------------------------------------------------
+    // フェードイン処理
+    // 処理概要：与えられた振幅配列に対して、少しずつ振幅を大きくして返却する。
+    //-------------------------------------------------------------------------------
+    private int[] fadeIn(int[] inWave) {
+
+        int[] retWave = new int[inWave.length];
+        for (int i = 0; i < retWave.length; i++) {
+
+            //フェードインカウンタのカウントアップ
+            this.fadeInCount = this.fadeInCount + 1;
+
+            //この時点で、フェードインのフレームサイズを越えている場合、
+            //フェードイン処理をしない。
+            if (this.fadeInCount >= AudioConfig.FADEIN_FRAME_SIZE) {
+                retWave[i] = inWave[i];
+                continue;
+            }
+            //フェードインのフレーム数からの比率の参集
+            double hi = 0.0;
+            if (this.fadeInCount < AudioConfig.FADEIN_FRAME_SIZE) {
+                double count = (double)this.fadeInCount;
+                double frame = (double)AudioConfig.FADEIN_FRAME_SIZE;
+                hi = count / frame;
+            }
+            //比を掛け目とする。
+            double filter = hi;
+
+            //元のデータと掛け合わせる。
+            double target = inWave[i];
+            double ret = target * filter;
+
+            //補正する。
+            retWave[i] = (int)ret;
+        }
+        return retWave;
+    }
+    //-------------------------------------------------------------------------------
     // フェードアウト処理
     // 処理概要：与えられた振幅配列に対して、少しずつ振幅を小さく返却する。
     //-------------------------------------------------------------------------------
     private int[] fadeOut(int[] inWave) {
-
-        WLog.d(this,"fadeOut");
 
         int[] retWave = new int[inWave.length];
         for (int i = 0; i < retWave.length; i++) {
@@ -115,6 +169,12 @@ public class SineWave extends ActiveNote {
             //フェードアウトカウンタのカウントアップ
             this.fadeOutCount = this.fadeOutCount + 1;
 
+            //この時点でフェードアウトのカウンタを越えている場合、
+            //波形はゼロに調整する。
+            if (this.fadeOutCount >= AudioConfig.FADEOUT_FRAME_SIZE) {
+                retWave[i] = 0;
+                continue;
+            }
             //フェードアウトのフレーム数からの比率の参集
             double hi = 0.9999999;
             if (this.fadeOutCount < AudioConfig.FADEOUT_FRAME_SIZE) {
