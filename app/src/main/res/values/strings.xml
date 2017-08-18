@@ -37,4 +37,6 @@
     <string name="buttonStopSinStream16bitHalfRate">Streamサイン派再生(16bit(レート半分))(STOP)</string>
     <string name="buttonPlaySinStream16bitPriority">Streamサイン派再生(16bit)(START)(プライオリティー)</string>
     <string name="buttonStopSinStream16bitPriority">Streamサイン派再生(16bit)(STOP)(プライオリティー)</string>
+    <string name="buttonPlayClick2">クリック音２(START)</string>
+    <string name="buttonStopClick2">クリック音２(STOP)</string>
 </resources>

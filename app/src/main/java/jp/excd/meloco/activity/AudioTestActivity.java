@@ -1,5 +1,6 @@
 package jp.excd.meloco.activity;
 
+import android.app.Activity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -14,6 +15,7 @@ import jp.excd.meloco.sample.AudioTest002;
 import jp.excd.meloco.sample.AudioTest003;
 import jp.excd.meloco.sample.AudioTest004;
 import jp.excd.meloco.sample.AudioTest005;
+import jp.excd.meloco.sample.AudioTest006;
 import jp.excd.meloco.utility.WLog;
 
 public class AudioTestActivity extends AppCompatActivity {
@@ -123,6 +125,27 @@ public class AudioTestActivity extends AppCompatActivity {
             public void onClick(View v) {
                 WLog.d(this,"サイン派STREAM再生を停止(プライオリティー)");
                 AudioTest005.playStop();
+            }
+        });
+        //クリック音２再生
+        final Activity activity = this;
+        final Button buttonPlayClick2 = (Button) this.findViewById(R.id.buttonPlayClick2);
+        buttonPlayClick2.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                WLog.d(this,"クリック音２再生");
+                AudioTest006.play(activity);
+            }
+        });
+        // クリック音２停止
+        final Button buttonStopClick2 = (Button) this.findViewById(R.id.buttonStopClick2);
+        buttonStopClick2.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                WLog.d(this,"クリック音２停止");
+                AudioTest006.playStop();
             }
         });
     }

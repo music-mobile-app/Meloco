@@ -10,6 +10,7 @@ public class WLog {
 
     //ログの出力有無(true:あり、false:なし)
     public static boolean on = false;
+    //public static boolean on = true;
 
     //----------------------------------------------------------------------------------------------
     // デバッグログのラッパー
