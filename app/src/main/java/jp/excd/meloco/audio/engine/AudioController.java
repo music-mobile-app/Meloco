@@ -77,11 +77,11 @@ public class AudioController {
         }
     }
     //--------------------------------------------------------------------------------
-    //   発音開始
-    //   引数１　： soundSourceType 音源の分類
-    //   引数２　： pitch 音程
-    //   引数３　： volume 音量
-    //   戻り値　：   割り振られた音源管理番号
+    //   名称　　：発音開始
+    //   引数１　：soundSourceType 音源の分類
+    //   引数２　：pitch 音程
+    //   引数３　：volume 音量
+    //   戻り値　：割り振られた音源管理番号
     //----------------------------------------------------------------------------------------------
     public static synchronized String noteOn(SoundSourceType soundSourceType,
                                                 String pitch,

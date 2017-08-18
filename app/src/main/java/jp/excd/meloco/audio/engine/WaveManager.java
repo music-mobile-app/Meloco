@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import jp.excd.meloco.audio.engine.ActiveNote;
+import jp.excd.meloco.audio.source.Click2;
 import jp.excd.meloco.constant.SoundSourceType;
 import jp.excd.meloco.utility.CommonUtil;
 import jp.excd.meloco.utility.WLog;
@@ -49,6 +50,9 @@ public class WaveManager extends Thread {
     //----------------------------------------------------------------------------------------------
     // 現在鳴っている音源群
     private static Map<String, ActiveNote> activeNotes;
+
+    // 現在発行済みのキー(このキーの初番は、このクラスをロックして行う。
+    private static long currentKey = 0;
 
     //----------------------------------------------------------------------------------------------
     // 次に返却するデータ
@@ -296,6 +300,16 @@ public class WaveManager extends Thread {
 
         return rets;
     }
+    //----------------------------------------------------------------------------------------------
+    // 名称    ：キー発番号
+    // 処理概要：音源管理キーの発番処理を行う。
+    // 戻り値　：発番された音源管理番号
+    //----------------------------------------------------------------------------------------------
+    private static synchronized String getKey() {
+        currentKey = currentKey + 1;
+        String key = "" + currentKey;
+        return key;
+    }
     //---------------------------------------------------------------------------------------------
     // ■AudioTrackWrapper用の公開メソッド
     //---------------------------------------------------------------------------------------------
@@ -374,17 +388,24 @@ public class WaveManager extends Thread {
         WLog.d(this,"addSoundSource()");
 
         //キー情報
-        String noteKey = "";
+        String noteKey = getKey();
 
         //「waveDataAccess」のロック
         synchronized (this.waveDataAccess) {
             if (soundSourceType == SoundSourceType.SINE_WAVE) {
+                //----------------------------------------------------------------------------------
+                // サイン波
+                //----------------------------------------------------------------------------------
                 SineWave sineWave = new SineWave(pitch, volume);
-                //キーの算出
-                int size = this.activeNotes.size();
-                noteKey = "" + (size + 1);
                 //ノート追加
                 this.activeNotes.put(noteKey, sineWave);
+            } else if (soundSourceType == SoundSourceType.CLICK2) {
+                //----------------------------------------------------------------------------------
+                // クリック音２
+                //----------------------------------------------------------------------------------
+                Click2 click2 = new Click2(volume);
+                //ノート追加
+                this.activeNotes.put(noteKey, click2);
             }
             //通知
             this.waveDataAccess.notifyAll();;
@@ -403,10 +424,10 @@ public class WaveManager extends Thread {
 
         synchronized (this.waveDataAccess) {
             ActiveNote activeNote = this.activeNotes.get(key);
-            activeNote.toEnd();
-            WLog.d(this,"notifyAll()前");
+            if (activeNote != null) {
+                activeNote.toEnd();
+            }
             this.waveDataAccess.notifyAll();
-            WLog.d(this,"notifyAll()後");
         }
     }
 }

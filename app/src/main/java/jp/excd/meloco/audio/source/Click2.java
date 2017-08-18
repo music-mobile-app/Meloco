@@ -24,11 +24,17 @@ public class Click2  extends ActiveNote {
     // 波形データ全量
     public static short[] wavaAll = null;
 
+    // 波形データブォリュームコントロール済み
+    private short[] volumeControlledWaveDatas = null;
+
     // 現在、発音中の位置
     private int cursol = 0;
 
-    //終了フラグ
+    // 終了フラグ
     private boolean isEnd = false;
+
+    // ヴォリューム
+    private int volume = 127;
 
     //----------------------------------------------------------------------------------------------
     // 波形データの初期読み込み
@@ -76,7 +82,25 @@ public class Click2  extends ActiveNote {
         }
     }
     //-------------------------------------------------------------------------------
-    // 波形情報を返却
+    // 名称    ：コンストラクタ
+    // 処理概要：クリック音の初期設定を行う。
+    // 引数１　：volume 1～127の範囲で、音の大きさを設定する。
+    //-------------------------------------------------------------------------------
+    public Click2 (int volume) {
+        this.volume = volume;
+        //---------------------------------------------------------------------------
+        //波形データをヴォリュームに応じて再構成
+        //---------------------------------------------------------------------------
+        double dVolume = (double)this.volume;
+        double rate = dVolume / 127.0;
+        int size = wavaAll.length;
+        this.volumeControlledWaveDatas = new short[size];
+        for (int i =0; i < this.volumeControlledWaveDatas.length; i++) {
+            this.volumeControlledWaveDatas[i] = (short)(rate * wavaAll[i]);
+        }
+    }
+    //-------------------------------------------------------------------------------
+    // 名称    ：波形情報を返却
     // 処理概要：次の波形データを返却しつつ、音源の情報を次回呼び出しの準備状態に更新する。
     //           戻り値はint[]配列であるが、shortを超えないデータを返却する。
     //           TODO:ステレオの実装を行う。
@@ -90,7 +114,7 @@ public class Click2  extends ActiveNote {
         int[] waves = null;
 
         // 波形データ全体のサイズ
-        int size = wavaAll.length;
+        int size = volumeControlledWaveDatas.length;
 
         // 残りデータのサイズ計算
         int nokori = size - this.cursol;
@@ -102,7 +126,7 @@ public class Click2  extends ActiveNote {
             waves = new int[AudioConfig.LOOP_BUFFER_SIZE];
         }
         for (int i = 0; i < waves.length; i++) {
-            waves[i] = wavaAll[this.cursol];
+            waves[i] = volumeControlledWaveDatas[this.cursol];
             this.cursol = this.cursol + 1;
         }
         //波形データの返却

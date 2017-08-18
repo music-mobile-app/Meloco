@@ -7,7 +7,12 @@ import android.app.Activity;
 import android.view.View;
 import android.widget.Button;
 
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+
 import jp.excd.meloco.R;
+import jp.excd.meloco.recorder.RecordingManager;
+import jp.excd.meloco.sample.AudioThread001;
 import jp.excd.meloco.utility.WLog;
 
 public class ButtonRecPresenter implements View.OnClickListener {
@@ -81,7 +86,9 @@ public class ButtonRecPresenter implements View.OnClickListener {
         // 再生ボタンを非活性化する。
         this.buttonPlayPresenter.toNotAvailable();
 
-        // TODO クリック音を鳴らし始める。
+        // レコーディングを開始する。
+        RecordingManager.startRecording();
+
     }
     //----------------------------------------------------------------
     // ボタン押下時の処理（録音停止)
