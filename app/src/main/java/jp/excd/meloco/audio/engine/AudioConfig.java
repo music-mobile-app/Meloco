@@ -42,4 +42,7 @@ public class AudioConfig {
 
     // WaveManagerのプライオリティー
     public static int WAVE_MANAGER_PRIORITY = Thread.MAX_PRIORITY;
+
+    // BPM
+    public static int BPM = 120;
 }
