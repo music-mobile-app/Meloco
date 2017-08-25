@@ -100,7 +100,7 @@
 
     <Button
         android:id="@+id/buttonMenu"
-        android:layout_width="88dp"
+        android:layout_width="82dp"
         android:layout_height="50dp"
         android:background="@drawable/button"
         android:text="@string/menu"
@@ -111,7 +111,7 @@
     <Spinner
         android:id="@+id/spinnerMode"
         style="@style/Widget.AppCompat.Light.Spinner.DropDown.ActionBar"
-        android:layout_width="85dp"
+        android:layout_width="82dp"
         android:layout_height="50dp"
         android:background="@drawable/button"
         android:entries="@array/list"
@@ -121,7 +121,7 @@
 
     <Button
         android:id="@+id/buttonPlay"
-        android:layout_width="78dp"
+        android:layout_width="76dp"
         android:layout_height="50dp"
         android:background="@drawable/button_play"
         app:layout_constraintRight_toLeftOf="@+id/spinnerMode"
@@ -129,7 +129,7 @@
 
     <Button
         android:id="@+id/buttonRec"
-        android:layout_width="78dp"
+        android:layout_width="76dp"
         android:layout_height="50dp"
         android:background="@drawable/button_rec"
         app:layout_constraintRight_toLeftOf="@+id/buttonPlay"
