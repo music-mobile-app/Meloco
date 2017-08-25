@@ -13,6 +13,9 @@ import jp.excd.meloco.utility.WLog;
 
 public class SineWave extends ActiveNote {
 
+    //最低音の周波数(C2を想定)
+    public static double LOWEST_FREQUENCY = 65.4064;
+
     //フェードイン中フラグ(キータッチの初めからフェードイン）
     private boolean onFadeIn = true;
 
@@ -34,6 +37,9 @@ public class SineWave extends ActiveNote {
     //周波数
     private double freq;
 
+    //振幅の最大幅
+    private double maxAmplitude;
+
     //音程
     private String pitch = "";
 
@@ -44,16 +50,33 @@ public class SineWave extends ActiveNote {
     //-------------------------------------------------------------------------------
     public SineWave(String pitch, int volume) {
 
-        WLog.d(this,"コンストラクタ");
+        WLog.d(this, "コンストラクタ");
 
         this.pitch = pitch;
-        WLog.d(this,"pitch=" + pitch);
+        WLog.d(this, "pitch=" + pitch);
 
         //---------------------------------------------------------------------------
         // 周波数の計算
         //---------------------------------------------------------------------------
         this.freq = getFreq(pitch);
-        WLog.d(this,"this.freq=" + this.freq);
+        WLog.d(this, "this.freq=" + this.freq);
+
+        //---------------------------------------------------------------------------
+        // 最大振幅の計算
+        //---------------------------------------------------------------------------
+        // システム上の最低音を最大振幅とし、その音との比の逆数を、最大振幅とする。
+        // 周波数の異なる音を、聴感上の同じ大きさに揃えるため
+        // 最低音の最大振幅との比を算出
+        double hi = this.freq / LOWEST_FREQUENCY;
+
+        // システム設定上の振幅に比の逆数を、掛け合わせて最大振幅を算出する。
+        if (AudioConfig.AUDIO_FORMAT == AudioFormat.ENCODING_PCM_8BIT) {
+            //エンコーディングが8bitの場合は、Byteの範囲で設定する。
+            this.maxAmplitude = Byte.MAX_VALUE / hi;
+        } else {
+            this.maxAmplitude = Short.MAX_VALUE / hi;
+        }
+        WLog.d(this, "this.maxAmplitude=" + this.maxAmplitude);
     }
     //-------------------------------------------------------------------------------
     // 波形情報を返却
@@ -83,15 +106,17 @@ public class SineWave extends ActiveNote {
             // 振幅の算出
             t = t + dt;
             double amplitude = Math.sin(2.0 * Math.PI * t * freq);
+
             // ボリュームを調整する。
             double volume = (double)((double)AudioConfig.SOURCE_SOUND_RANGE / 100.0);
             amplitude = amplitude * volume;
 
+            //振幅は、その周波数の最大振幅に合わせる。
             if (AudioConfig.AUDIO_FORMAT == AudioFormat.ENCODING_PCM_8BIT) {
                 //エンコーディングが8bitの場合は、Byteの範囲で設定する。
-                sinWave[i] = (byte)(Byte.MAX_VALUE * amplitude);
+                sinWave[i] = (byte)(this.maxAmplitude * amplitude);
             } else {
-                sinWave[i] = (short)(Short.MAX_VALUE * amplitude);
+                sinWave[i] = (short)(this.maxAmplitude * amplitude);
             }
         }
         //----------------------------------------------------------------------------------------

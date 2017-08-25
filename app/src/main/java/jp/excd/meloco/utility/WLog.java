@@ -33,5 +33,4 @@ public class WLog {
             Log.d(CommonUtil.tag(), s);
         }
     };
-
 }

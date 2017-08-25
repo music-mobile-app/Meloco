@@ -32,7 +32,7 @@ public class AudioConfig {
     public static int FADEOUT_FRAME_SIZE = 780;
 
     // 元音の振幅倍率(%)
-    public static int SOURCE_SOUND_RANGE = 25;
+    public static int SOURCE_SOUND_RANGE = 70;
 
     // リミッティング敷居値
     public static int COMPRESS_BORDER = 80;
