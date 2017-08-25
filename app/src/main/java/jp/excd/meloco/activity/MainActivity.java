@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import jp.excd.meloco.R;
+import jp.excd.meloco.audio.engine.AudioController;
 import jp.excd.meloco.audio.source.Click2;
 import jp.excd.meloco.constant.KeyboardType;
 
@@ -65,6 +66,12 @@ public class MainActivity extends AppCompatActivity {
         // クリック音の音源読み込み
         //----------------------------------------------------------------------
         Click2.sourceFileLoad(this);
+
+        //----------------------------------------------------------------------
+        //  オーディオスレッドの開始
+        //----------------------------------------------------------------------
+        AudioController.audioStart();
+
         //----------------------------------------------------------------------
         // 再生ボタンおよび録音ボタンのリスナー設定
         //----------------------------------------------------------------------

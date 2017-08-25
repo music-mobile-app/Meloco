@@ -219,6 +219,15 @@
         app:layout_constraintTop_toBottomOf="@+id/imageViewStep"
         app:layout_constraintHorizontal_bias="0.0" />
 
+    <jp.excd.meloco.customView.SurfaceViewScore
+        android:id="@+id/surfaceViewScore"
+        android:layout_width="300dp"
+        android:layout_height="100dp"
+        android:layout_marginLeft="60dp"
+        android:layout_marginTop="2dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewStep"/>
+
     <ImageView
         android:id="@+id/imageViewSquare"
         android:layout_width="10dp"
