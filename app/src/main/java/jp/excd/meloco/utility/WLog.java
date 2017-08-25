@@ -8,9 +8,11 @@ import jp.excd.meloco.utility.CommonUtil;
 
 public class WLog {
 
-    //ログの出力有無(true:あり、false:なし)
-    public static boolean on = false;
-    //public static boolean on = true;
+    //基本的なログの出力設定(true:あり、false:なし)
+    public static boolean on = true;
+
+    //クリティカルセクションのログの出力有無(true:あり、false:なし)
+    public static boolean logOnForCritical = false;
 
     //----------------------------------------------------------------------------------------------
     // デバッグログのラッパー
@@ -31,6 +33,33 @@ public class WLog {
     public static void d(String s) {
         if (on) {
             Log.d(CommonUtil.tag(), s);
+        }
+    };
+    //----------------------------------------------------------------------------------------------
+    // デバッグログのラッパー(クリティカル処理用)
+    //   ログ出力が、Audio処理の波形欠落を引き起こすため、任意のタイミングでオフにすることが
+    //   できるようにしておく。
+    //   第１引数：ログ出力を行うインスタンス
+    //   第２引数：出力ログ文字列
+    //----------------------------------------------------------------------------------------------
+    public static void dc(Object o, String s) {
+        if (logOnForCritical) {
+            if (on) {
+                Log.d(CommonUtil.tag(o), s);
+            }
+        }
+    };
+    //----------------------------------------------------------------------------------------------
+    // デバッグログのラッパー(クリティカル処理用)
+    //   ログ出力が、Audio処理の波形欠落を引き起こすため、任意のタイミングでオフにすることが
+    //   できるようにしておく。
+    //   第引数：出力ログ文字列
+    //----------------------------------------------------------------------------------------------
+    public static void dc(String s) {
+        if (logOnForCritical) {
+            if (on) {
+                Log.d(CommonUtil.tag(), s);
+            }
         }
     };
 }

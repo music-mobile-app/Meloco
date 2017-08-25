@@ -1341,6 +1341,137 @@
                 android:alpha="0.1"
                 android:scaleType="fitXY"/>
 
+            <!-- 鍵盤のラベル表示(下段) -->
+            <TextView
+                android:id="@+id/textViewLabelLowerC2"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="center_horizontal"
+                android:textColor="#66CC66"
+                android:text="C2"
+                android:textSize="16sp"
+                app:layout_constraintLeft_toLeftOf="@+id/imageButtonLowerC2"
+                app:layout_constraintBottom_toBottomOf="@+id/imageButtonLowerC2" />
+
+            <TextView
+                android:id="@+id/textViewLabelLowerC3"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="center_horizontal"
+                android:textColor="#66CC66"
+                android:text="C3"
+                android:textSize="16sp"
+                app:layout_constraintLeft_toLeftOf="@+id/imageButtonLowerC3"
+                app:layout_constraintBottom_toBottomOf="@+id/imageButtonLowerC3" />
+
+            <TextView
+                android:id="@+id/textViewLabelLowerC4"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="center_horizontal"
+                android:textColor="#66CC66"
+                android:text="C4"
+                android:textSize="16sp"
+                app:layout_constraintLeft_toLeftOf="@+id/imageButtonLowerC4"
+                app:layout_constraintBottom_toBottomOf="@+id/imageButtonLowerC4" />
+
+            <TextView
+                android:id="@+id/textViewLabelLowerC5"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="center_horizontal"
+                android:textColor="#66CC66"
+                android:text="C5"
+                android:textSize="16sp"
+                app:layout_constraintLeft_toLeftOf="@+id/imageButtonLowerC5"
+                app:layout_constraintBottom_toBottomOf="@+id/imageButtonLowerC5" />
+
+            <TextView
+                android:id="@+id/textViewLabelLowerC6"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="center_horizontal"
+                android:textColor="#66CC66"
+                android:text="C6"
+                android:textSize="16sp"
+                app:layout_constraintLeft_toLeftOf="@+id/imageButtonLowerC6"
+                app:layout_constraintBottom_toBottomOf="@+id/imageButtonLowerC6" />
+            <!-- 鍵盤のラベル表示(上段) -->
+            <TextView
+                android:id="@+id/textViewLabelUpperC3"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="center_horizontal"
+                android:textColor="#66CC66"
+                android:text="C3"
+                android:textSize="16sp"
+                app:layout_constraintLeft_toLeftOf="@+id/imageButtonUpperC3"
+                app:layout_constraintBottom_toBottomOf="@+id/imageButtonUpperC3" />
+
+            <TextView
+                android:id="@+id/textViewLabelUpperC4"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="center_horizontal"
+                android:textColor="#66CC66"
+                android:text="C4"
+                android:textSize="16sp"
+                app:layout_constraintLeft_toLeftOf="@+id/imageButtonUpperC4"
+                app:layout_constraintBottom_toBottomOf="@+id/imageButtonUpperC4" />
+
+            <TextView
+                android:id="@+id/textViewLabelUpperC5"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="center_horizontal"
+                android:textColor="#66CC66"
+                android:text="C5"
+                android:textSize="16sp"
+                app:layout_constraintLeft_toLeftOf="@+id/imageButtonUpperC5"
+                app:layout_constraintBottom_toBottomOf="@+id/imageButtonUpperC5" />
+
+            <TextView
+                android:id="@+id/textViewLabelUpperC6"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="center_horizontal"
+                android:textColor="#66CC66"
+                android:text="C6"
+                android:textSize="16sp"
+                app:layout_constraintLeft_toLeftOf="@+id/imageButtonUpperC6"
+                app:layout_constraintBottom_toBottomOf="@+id/imageButtonUpperC6" />
+
+            <TextView
+                android:id="@+id/textViewLabelUpperC7"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="center_horizontal"
+                android:textColor="#66CC66"
+                android:text="C7"
+                android:textSize="16sp"
+                app:layout_constraintLeft_toLeftOf="@+id/imageButtonUpperC7"
+                app:layout_constraintBottom_toBottomOf="@+id/imageButtonUpperC7" />
+
         </android.support.constraint.ConstraintLayout>
     </HorizontalScrollView>
 </android.support.constraint.ConstraintLayout>
