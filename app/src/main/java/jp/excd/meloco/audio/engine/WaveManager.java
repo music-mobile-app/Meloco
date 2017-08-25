@@ -85,7 +85,7 @@ public class WaveManager extends Thread {
     //  プライベート化して、外部からインスタンス化できないようにする。
     //----------------------------------------------------------------------------------------------
     private WaveManager() {
-        WLog.d("WaveManagerコンストラクタ");
+        WLog.dc("WaveManagerコンストラクタ");
 
         synchronized (waveDataAccess) {
 
@@ -101,7 +101,7 @@ public class WaveManager extends Thread {
             //最初の１度だけインスタンスを生成する。
             me = new WaveManager();
 
-            WLog.d("waveManagerPriority=" + AudioConfig.WAVE_MANAGER_PRIORITY);
+            WLog.dc("waveManagerPriority=" + AudioConfig.WAVE_MANAGER_PRIORITY);
             me.setPriority(AudioConfig.WAVE_MANAGER_PRIORITY);
 
         }
@@ -116,7 +116,7 @@ public class WaveManager extends Thread {
         //WLog.d(this, "priority=" + AudioConfig.WAVE_MANAGER_PRIORITY);
         //android.os.Process.setThreadPriority(AudioConfig.WAVE_MANAGER_PRIORITY);
 
-        WLog.d(this, "スレッド実行");
+        WLog.dc(this, "スレッド実行");
 
         //強制終了フラグたつまで、ループし続ける。
         while (this.stopFlg == false) {
@@ -124,12 +124,12 @@ public class WaveManager extends Thread {
         }
         WLog.d(this, "スレッド終了");
 
-        WLog.d(this, "AudioWrapperにも、音源生成が終了したことを伝える。");
+        WLog.dc(this, "AudioWrapperにも、音源生成が終了したことを伝える。");
         this.audioTrackToStop = true;
 
         //WaveManagerからの通知待ちの可能性があるので、待ちの解消を行う。
         synchronized (nextDataLock) {
-            WLog.d(this, "AudioTrackWrapperの待ちの解消");
+            WLog.dc(this, "AudioTrackWrapperの待ちの解消");
             nextDataLock.notifyAll();
         }
         //自分自身を初期化
@@ -143,7 +143,7 @@ public class WaveManager extends Thread {
     //----------------------------------------------------------------------------------------------
     private void mainLoop() {
 
-        WLog.d(this,"mainLoop()");
+        WLog.dc(this,"mainLoop()");
 
         //波形データの入れ物
         short[] shorts = null;
@@ -164,18 +164,18 @@ public class WaveManager extends Thread {
             if (shorts == null) {
                 if (this.stopFlg == false) {
                     try {
-                        WLog.d(this, "波形データが取得できないのでwait");
+                        WLog.dc(this, "波形データが取得できないのでwait");
                         waveDataAccess.wait();
                     } catch (InterruptedException e) {
-                        WLog.d(this, "AudioTrackWrapperより通知あり");
+                        WLog.dc(this, "AudioTrackWrapperより通知あり");
                     }
                 }
             }
         }
         if ((shorts == null) || (shorts.length == 0)) {
-            WLog.d(this, "波形データが取得できていないので、更新しない。");
+            WLog.dc(this, "波形データが取得できていないので、更新しない。");
         } else {
-            WLog.d(this, "波形データをAudioTrackWrapperに伝える。");
+            WLog.dc(this, "波形データをAudioTrackWrapperに伝える。");
             nextDataUpdate(shorts);
         }
     }
@@ -188,7 +188,7 @@ public class WaveManager extends Thread {
     //----------------------------------------------------------------------------------------------
     private void nextDataUpdate(short[] shorts) {
 
-        WLog.d(this, "nextDataUpdate()");
+        WLog.dc(this, "nextDataUpdate()");
 
         boolean loopOn = true;
 
@@ -203,10 +203,10 @@ public class WaveManager extends Thread {
                 if (this.allready) {
                     //未処理の場合は、処理済みになるのを待つ。
                     try {
-                        WLog.d(this, "未処理のため、処理済みになるのを待つ");
+                        WLog.dc(this, "未処理のため、処理済みになるのを待つ");
                         nextDataLock.wait();
                     } catch (InterruptedException e) {
-                        WLog.d(this, "AudioTrackWrapperより通知あり");
+                        WLog.dc(this, "AudioTrackWrapperより通知あり");
                     }
                 } else {
                     //受け入れ可能な場合は、更新
@@ -246,13 +246,13 @@ public class WaveManager extends Thread {
     //----------------------------------------------------------------------------------------------
     private short[] getNextData() {
 
-        WLog.d(this, "getNextData()");
+        WLog.dc(this, "getNextData()");
 
         //------------------------------------------------------------------------------------------
         // アクティブな音源の存在確認
         //------------------------------------------------------------------------------------------
         if ((activeNotes == null) || (activeNotes.size() == 0)) {
-            WLog.d(this, "アクティブな音源が存在しない");
+            WLog.dc(this, "アクティブな音源が存在しない");
             return null;
         }
         //------------------------------------------------------------------------------------------
@@ -322,7 +322,7 @@ public class WaveManager extends Thread {
     //----------------------------------------------------------------------------------------------
     public byte[] getNextData8bit() {
 
-        WLog.d(this,"getNextData8bit()");
+        WLog.dc(this,"getNextData8bit()");
 
         if ((this.nextData8bit == null)||(this.nextData8bit.length == 0)) {
             return null;
@@ -344,7 +344,7 @@ public class WaveManager extends Thread {
     //----------------------------------------------------------------------------------------------
     public short[] getNextData16bit() {
 
-        WLog.d(this,"getNextData16bit()");
+        WLog.dc(this,"getNextData16bit()");
 
         if ((this.nextData16bit == null)||(this.nextData16bit.length == 0)) {
             return null;
@@ -364,7 +364,7 @@ public class WaveManager extends Thread {
     //----------------------------------------------------------------------------------------------
     public void setAllreadyOff() {
 
-        WLog.d(this,"setAllreadyOff()");
+        WLog.dc(this,"setAllreadyOff()");
 
         this.allready = false;
         this.nextData8bit = null;
@@ -385,7 +385,7 @@ public class WaveManager extends Thread {
     public String addSoundSource(SoundSourceType soundSourceType,
                                                 String pitch,
                                                 int volume) {
-        WLog.d(this,"addSoundSource()");
+        WLog.dc(this,"addSoundSource()");
 
         //キー情報
         String noteKey = getKey();
@@ -420,7 +420,7 @@ public class WaveManager extends Thread {
     //----------------------------------------------------------------------------------------------
     public void deleteSoundSource(String key) {
 
-        WLog.d(this,"deleteSoundSource()");
+        WLog.dc(this,"deleteSoundSource()");
 
         synchronized (this.waveDataAccess) {
             ActiveNote activeNote = this.activeNotes.get(key);

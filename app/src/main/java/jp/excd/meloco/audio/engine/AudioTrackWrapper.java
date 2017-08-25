@@ -30,7 +30,7 @@ public class AudioTrackWrapper extends Thread{
     //----------------------------------------------------------------------------------------------
     private AudioTrackWrapper(WaveManager waveManager) {
 
-        WLog.d("AudioTrackWrapper()コンストラクタ");
+        WLog.dc("AudioTrackWrapper()コンストラクタ");
 
         //AudioTrackの生成
         //------------------------------------------------------------------------------------------
@@ -41,7 +41,7 @@ public class AudioTrackWrapper extends Thread{
                 AudioConfig.SAMPLE_RATE,
                 AudioConfig.CHANNEL_CONFIG,
                 AudioConfig.AUDIO_FORMAT);
-        WLog.d(this,"bufferSizeInByte=" + bufferSizeInByte);
+        WLog.dc(this,"bufferSizeInByte=" + bufferSizeInByte);
 
         // AudioTrackをストリームモードで作成
         this.track = new AudioTrack(
@@ -52,7 +52,7 @@ public class AudioTrackWrapper extends Thread{
                 bufferSizeInByte,    //←バッファサイズを、フォーマット上の最小値に設定
                 AudioTrack.MODE_STREAM);
 
-        WLog.d(this,"AudioTrack.play()");
+        WLog.dc(this,"AudioTrack.play()");
         this.track.play();
 
     }
@@ -66,7 +66,7 @@ public class AudioTrackWrapper extends Thread{
             //最初の１度だけインスタンスを生成する。
             me = new AudioTrackWrapper(waveManager);
 
-            WLog.d("AudioTrackWrapperPriority=" + AudioConfig.WAVE_MANAGER_PRIORITY);
+            WLog.dc("AudioTrackWrapperPriority=" + AudioConfig.WAVE_MANAGER_PRIORITY);
             me.setPriority(AudioConfig.AUDIO_TRACK_WRAPPER_PRIORITY);
         }
         //すでにインスタンスがある場合は、WaveManagerの参照だけを入れ替える。
@@ -198,12 +198,12 @@ public class AudioTrackWrapper extends Thread{
                         //------------------------------------------------------------------------------
                         // 待ち合わせ
                         //------------------------------------------------------------------------------
-                        WLog.d(this, "波形データが取得できないのでwait");
+                        WLog.dc(this, "波形データが取得できないのでwait");
                         try {
                             //この時点でロックは開放されている。
                             WaveManager.nextDataLock.wait();
                         } catch (InterruptedException e) {
-                            WLog.d(this, "WaveManagerより波形データ更新連絡あり");
+                            WLog.dc(this, "WaveManagerより波形データ更新連絡あり");
                         }
                     }
                 } else {

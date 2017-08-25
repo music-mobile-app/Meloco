@@ -20,7 +20,7 @@ public class AudioController {
     // オーディオ開始
     //--------------------------------------------------------------------------------
     public static void audioStart() {
-        WLog.d("audioStart()");
+        WLog.dc("audioStart()");
 
         // 波形管理オブジェクトの生成
         waveManager = WaveManager.getInstance();
@@ -40,11 +40,11 @@ public class AudioController {
     //--------------------------------------------------------------------------------
     public static void audioStop() {
 
-        WLog.d("audioStop()");
+        WLog.dc("audioStop()");
 
         if (waveManager == null) {
             //まだAudioを開始していない状況の場合、なにも行わない。
-            WLog.d("Audioはまだ開始していない。");
+            WLog.dc("Audioはまだ開始していない。");
             return;
         }
 
@@ -53,7 +53,7 @@ public class AudioController {
 
         // 待ちの解消
         synchronized (waveManager.waveDataAccess) {
-            WLog.d("waveDataAccess待ちの解消");
+            WLog.dc("waveDataAccess待ちの解消");
             waveManager.waveDataAccess.notifyAll();
         }
 
@@ -62,17 +62,17 @@ public class AudioController {
         //---------------------------------------------------------------------------
         boolean flg = true;
         while(flg) {
-            WLog.d("停止チェックループ");
+            WLog.dc("停止チェックループ");
             if (audioTrackWrapper.isInitial()) {
                 //初期化完了
                 flg = false;
             }
             //１秒待つ
             try {
-                WLog.d("１秒待つ");
+                WLog.dc("１秒待つ");
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
-                WLog.d("１秒経過");
+                WLog.dc("１秒経過");
             }
         }
     }
@@ -87,19 +87,19 @@ public class AudioController {
                                                 String pitch,
                                                 int volume) {
 
-        WLog.d("noteOn");
-        WLog.d("pitch=" + pitch);
+        WLog.dc("noteOn");
+        WLog.dc("pitch=" + pitch);
 
         //----------------------------------------------------------------------------------------------
         // WaveManagerがインスタンス化されていなければ、インスタンス化する。
         //----------------------------------------------------------------------------------------------
         if (waveManager == null) {
-            WLog.d("AudioStart");
+            WLog.dc("AudioStart");
             audioStart();
         }
         //アクティブな音源を追加
         String key = waveManager.addSoundSource(soundSourceType, pitch, volume);
-        WLog.d("key=" + key);
+        WLog.dc("key=" + key);
         //追加された音源のキーを返却
         return key;
     }
@@ -110,8 +110,8 @@ public class AudioController {
     // 引数１　： key 割り振られた音源管理番号
     //----------------------------------------------------------------------------------------------
     public static synchronized void noteOff(String key){
-        WLog.d("noteOff");
-        WLog.d("key=" + key);
+        WLog.dc("noteOff");
+        WLog.dc("key=" + key);
         if (waveManager == null) {
             // 波形管理オブジェクトが存在しない場合、すでに停止状態なので、
             // 何もしない。

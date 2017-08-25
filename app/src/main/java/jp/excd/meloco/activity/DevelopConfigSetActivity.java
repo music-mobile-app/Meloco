@@ -382,7 +382,7 @@ public class DevelopConfigSetActivity extends AppCompatActivity {
         Switch aSwitch = (Switch) findViewById(R.id.switchLog);
 
         //現状の状態を取得
-        boolean active = WLog.on;
+        boolean active = WLog.logOnForCritical;
 
         if (active == true) {
             WLog.d(this, "ON");
@@ -519,7 +519,7 @@ public class DevelopConfigSetActivity extends AppCompatActivity {
         boolean b = aSwitch.isChecked();
 
         WLog.d("ログ取得設定b=" + b);
-        WLog.on = b;
+        WLog.logOnForCritical = b;
 
         //----------------------------------------------------------------------------------------
         // Audio起動

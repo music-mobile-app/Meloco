@@ -50,16 +50,16 @@ public class SineWave extends ActiveNote {
     //-------------------------------------------------------------------------------
     public SineWave(String pitch, int volume) {
 
-        WLog.d(this, "コンストラクタ");
+        WLog.dc(this, "コンストラクタ");
 
         this.pitch = pitch;
-        WLog.d(this, "pitch=" + pitch);
+        WLog.dc(this, "pitch=" + pitch);
 
         //---------------------------------------------------------------------------
         // 周波数の計算
         //---------------------------------------------------------------------------
         this.freq = getFreq(pitch);
-        WLog.d(this, "this.freq=" + this.freq);
+        WLog.dc(this, "this.freq=" + this.freq);
 
         //---------------------------------------------------------------------------
         // 最大振幅の計算
@@ -76,7 +76,7 @@ public class SineWave extends ActiveNote {
         } else {
             this.maxAmplitude = Short.MAX_VALUE / hi;
         }
-        WLog.d(this, "this.maxAmplitude=" + this.maxAmplitude);
+        WLog.dc(this, "this.maxAmplitude=" + this.maxAmplitude);
     }
     //-------------------------------------------------------------------------------
     // 波形情報を返却
@@ -88,7 +88,7 @@ public class SineWave extends ActiveNote {
     @Override
     public int[] getAndUpdateWaveData() {
 
-        WLog.d(this,"getAndUpdateWaveData()");
+        WLog.dc(this,"getAndUpdateWaveData()");
 
         // 最終的に返却するデータ
         int[] sinWave = new int[AudioConfig.LOOP_BUFFER_SIZE];

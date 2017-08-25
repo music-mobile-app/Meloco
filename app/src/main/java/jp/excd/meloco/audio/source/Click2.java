@@ -53,7 +53,7 @@ public class Click2  extends ActiveNote {
             input.read(wavData);
             input.close();
         } catch(IOException e) {
-            WLog.d("ファイル読み込み失敗");
+            WLog.dc("ファイル読み込み失敗");
         }
         //------------------------------------------------------------------------------------------
         // AudioTrackがshortを受け取るため、shortに直す。
@@ -108,7 +108,7 @@ public class Click2  extends ActiveNote {
     @Override
     public int[] getAndUpdateWaveData() {
 
-        WLog.d(this, "getAndUpdateWaveData()");
+        WLog.dc(this, "getAndUpdateWaveData()");
 
         // 最終的に返却するデータ
         int[] waves = null;

@@ -18,7 +18,7 @@ public class AudioConfig {
     // チャネル定義(モノラル(TODO：後にステレオ化する。)
     public static int CHANNEL_CONFIG = AudioFormat.CHANNEL_OUT_MONO;
 
-    // オーディオフォーマット(16bit)
+    // オーディオフォーマット(16bit)(TODO:8BITは廃止する)
     public static int AUDIO_FORMAT = AudioFormat.ENCODING_PCM_16BIT;
     //public static int AUDIO_FORMAT = AudioFormat.ENCODING_PCM_8BIT;
 

@@ -118,8 +118,7 @@ public class CommonUtil {
     //----------------------------------------------------------------------------------------------
     public static short compressWaveData(int inI, int minValue, int maxValue) {
 
-        WLog.d("compressIntToShort");
-        WLog.d("inI=" + inI);
+        WLog.dc("compressWaveData()" + "inI=" + inI + "minValue=" + minValue + "maxValue=" + maxValue);
 
         //ローカット要
         boolean lowCutOn = false;
@@ -129,37 +128,32 @@ public class CommonUtil {
         // 圧縮のしきい値の取得
         //------------------------------------------------------------------------------------------
         int border = AudioConfig.COMPRESS_BORDER;
-        WLog.d("border=" + border);
 
         double dBorder = (double)border;
         double per = (double)(dBorder / 100.0);
 
         int lowLimit = (int)(minValue * per);
-        WLog.d("lowLimit=" + lowLimit);
 
 
         int highLimit = (int)(maxValue * per);
-        WLog.d("highLimit=" + highLimit);
 
         //------------------------------------------------------------------------------------------
         // 圧縮のしきい値チェック(下限)
         //------------------------------------------------------------------------------------------
         if (lowLimit > inI) {
             lowCutOn = true;
-            WLog.d("lowCutOn=on");
         }
         //------------------------------------------------------------------------------------------
         // 圧縮のしきい値チェック(上限)
         //------------------------------------------------------------------------------------------
         if (highLimit < inI) {
             highCutOn = true;
-            WLog.d("highCutOn=on");
         }
         //------------------------------------------------------------------------------------------
         // 圧縮のしきい値を越えていなければ、何もしない。
         //------------------------------------------------------------------------------------------
         if ((highCutOn == false)&&(lowCutOn == false)) {
-            WLog.d("何もせずに返却");
+            WLog.dc("返却値=" + inI);
             return (short)inI;
         }
         //------------------------------------------------------------------------------------------
@@ -180,26 +174,23 @@ public class CommonUtil {
         if (highCutOn) {
             //差分の取り出し
             int sa = inI - highLimit;
-            WLog.d("sa=" + sa);
 
             //差分の圧縮対象の幅に占める割合を算出①
             double fraction = ((double)sa / (double)compressRage);
-            WLog.d("fraction=" + fraction);
 
             //実データの圧縮対象の幅にかけ合わせる。
             int compressZone = (int)(fraction * targetCompressRange);
-            WLog.d("compressZone=" + compressZone);
 
             //圧縮
             int compressed = highLimit + compressZone;
-            WLog.d("compressed=" + compressed);
 
             //この時点で、振幅の最大値を越えている場合（①で１以上が求まっている場合）
             //最大値に調整
             if (compressed > maxValue) {
-                WLog.d("上限最大値に調整");
+                WLog.dc("返却値=" + maxValue);
                 return (short)maxValue;
             } else {
+                WLog.dc("返却値=" + compressed);
                 return (short)compressed;
             }
         }
@@ -209,32 +200,28 @@ public class CommonUtil {
         if (lowCutOn) {
             //差分の取り出し
             int sa = inI - lowLimit;
-            WLog.d("sa=" + sa);
             //絶対値に直す
             sa = (-1) * sa;
 
             //差分の圧縮対象の幅に占める割合を算出①
             double fraction = ((double)sa / (double)compressRage);
-            WLog.d("fraction=" + fraction);
 
             //実データの圧縮対象の幅にかけ合わせる。
             int compressZone = (int)(fraction * targetCompressRange);
-            WLog.d("compressZone=" + compressZone);
 
             //圧縮
             int compressed = lowLimit - compressZone;
-            WLog.d("compressed=" + compressed);
 
             //この時点で、振幅の最小値を越えている場合（①で１以上が求まっている場合）
             //最小値に調整
             if (compressed < minValue) {
-                WLog.d("下限最小値に調整");
+                WLog.dc("返却値=" + minValue);
                 return (short)minValue;
             } else {
+                WLog.dc("返却値=" + compressed);
                 return (short)compressed;
             }
         }
-        WLog.d("下限調整も上限調整もなし");
         return (short)inI;
     }
 }
