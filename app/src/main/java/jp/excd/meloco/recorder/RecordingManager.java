@@ -5,12 +5,19 @@
 //--------------------------------------------------------------------------------------------------
 package jp.excd.meloco.recorder;
 
-import jp.excd.meloco.sample.AudioThread001;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+
+import jp.excd.meloco.audio.engine.AudioController;
+import jp.excd.meloco.constant.SoundSourceType;
 import jp.excd.meloco.utility.WLog;
 
-public class RecordingManager {
-    //自分自身
+public class RecordingManager extends Thread{
+    // 自分自身
     private static RecordingManager me = null;
+
+    // 鳴らしているクリック音
+    private ClickLoop clickLoop;
 
     //----------------------------------------------------------------------------------------------
     // コンストラクタ
@@ -31,11 +38,25 @@ public class RecordingManager {
     //----------------------------------------------------------------------------------------------
     public void startRec() {
 
-        // TODO クリック音を鳴らし始める（テストコード)
-        WLog.d(this, "click音を4回鳴らす。");
-        AudioThread001 audioThread001 = new AudioThread001();
-        audioThread001.start();
-        //TODO　実装する。
+        WLog.d(this, "startRec()");
+
+        // クリック音を鳴らす。
+        WLog.d(this, "startRec()_別スレッドで実行");
+        me.start();
+    }
+    @Override
+    public void run() {
+        WLog.d(this, "クリック音を鳴らす");
+        this.clickLoop = new ClickLoop();
+        this.clickLoop.start();
+    }
+    //----------------------------------------------------------------------------------------------
+    // 名称   ：レコーディング終了
+    //----------------------------------------------------------------------------------------------
+    public void stopRec() {
+
+        WLog.d(this, "stopRec()");
+        this.clickLoop.stop();
     }
     //----------------------------------------------------------------------------------------------
     // ■公開メソッド
@@ -52,5 +73,6 @@ public class RecordingManager {
     //----------------------------------------------------------------------------------------------
     public static void stopRecording() {
         // TODO 実装する。
+        me.stopRec();
     }
 }

@@ -96,6 +96,9 @@ public class ButtonRecPresenter implements View.OnClickListener {
     private void stopRec() {
         WLog.d(this, "stopRec()");
 
+        // レコーディング終了
+        RecordingManager.stopRecording();
+
         // 録音ボタンを通常に戻す。
         Button b = (Button) parentActivity.findViewById(R.id.buttonRec);
         b.setBackgroundResource(R.drawable.button_rec);

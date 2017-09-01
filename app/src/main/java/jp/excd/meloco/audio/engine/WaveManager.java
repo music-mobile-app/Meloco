@@ -9,14 +9,14 @@
 package jp.excd.meloco.audio.engine;
 
 import android.media.AudioFormat;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import jp.excd.meloco.audio.engine.ActiveNote;
+
 import jp.excd.meloco.audio.source.Click2;
+import jp.excd.meloco.audio.source.Click;
 import jp.excd.meloco.constant.SoundSourceType;
 import jp.excd.meloco.utility.CommonUtil;
 import jp.excd.meloco.utility.WLog;
@@ -406,6 +406,13 @@ public class WaveManager extends Thread {
                 Click2 click2 = new Click2(volume);
                 //ノート追加
                 this.activeNotes.put(noteKey, click2);
+            } else if (soundSourceType == SoundSourceType.CLICK) {
+                //----------------------------------------------------------------------------------
+                // クリック音
+                //----------------------------------------------------------------------------------
+                Click click = new Click(volume);
+                //ノート追加
+                this.activeNotes.put(noteKey, click);
             }
             //通知
             this.waveDataAccess.notifyAll();;

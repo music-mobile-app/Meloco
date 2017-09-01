@@ -3,16 +3,11 @@ package jp.excd.meloco.activity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MotionEvent;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.Toast;
 
 import jp.excd.meloco.R;
 import jp.excd.meloco.audio.engine.AudioController;
 import jp.excd.meloco.audio.source.Click2;
+import jp.excd.meloco.audio.source.Click;
 import jp.excd.meloco.constant.KeyboardType;
 
 
@@ -21,8 +16,6 @@ import jp.excd.meloco.presenter.ButtonRecPresenter;
 import jp.excd.meloco.presenter.KeyboardPresenter;
 import jp.excd.meloco.presenter.ButtonMenuPresenter;
 import jp.excd.meloco.utility.CommonUtil;
-
-import static android.widget.Toast.*;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -66,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
         // クリック音の音源読み込み
         //----------------------------------------------------------------------
         Click2.sourceFileLoad(this);
+        Click.sourceFileLoad(this);
 
         //----------------------------------------------------------------------
         //  オーディオスレッドの開始
