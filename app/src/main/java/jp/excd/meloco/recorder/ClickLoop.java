@@ -14,6 +14,7 @@ import jp.excd.meloco.utility.WLog;
 
 public class ClickLoop {
 
+    // スケジュール管理オブジェクト
     private ScheduledFuture<?> scheduledFuture;
     //----------------------------------------------------------------------------------------------
     // 名称    ：クリック音発音スタート

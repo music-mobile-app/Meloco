@@ -5,6 +5,7 @@ import android.view.View;
 
 import jp.excd.meloco.audio.engine.AudioController;
 import jp.excd.meloco.constant.SoundSourceType;
+import jp.excd.meloco.recorder.KeyboardLogger;
 import jp.excd.meloco.utility.WLog;
 
 public class KeyboardKeyPresenter implements View.OnTouchListener {
@@ -25,6 +26,11 @@ public class KeyboardKeyPresenter implements View.OnTouchListener {
     private int buttonTouchCount = 0;
     // 発音中の音源のキー
     private String activeNoteKey = "";
+
+    // キーボードロガー
+    // (リアル録音中のみ設定される。)
+    private KeyboardLogger keyboardLogger = null;
+
     //-----------------------------------------------------------
     // コンストラクタ
     // 第１引数：ViewのId
@@ -58,18 +64,38 @@ public class KeyboardKeyPresenter implements View.OnTouchListener {
             //発音
             this.activeNoteKey = AudioController.noteOn(SoundSourceType.SINE_WAVE, this.note, 100);
 
-            //ACTION_UPも受け取る。
-            //return true;
-
+            //--------------------------------------------------------------------------------------
+            // キーボードロガーが設定されている場合は、記録する。
+            //--------------------------------------------------------------------------------------
+            synchronized (KeyboardLogger.lock) {
+                if (this.keyboardLogger != null) {
+                    this.keyboardLogger.noteOn(note);
+                }
+            }
         } else if (event.getAction() == MotionEvent.ACTION_UP) {
             WLog.d(this,"ACTION_UP");
             //離したときの動作
             AudioController.noteOff(this.activeNoteKey);
-
+            //--------------------------------------------------------------------------------------
+            // キーボードロガーが設定されている場合は、記録する。
+            //--------------------------------------------------------------------------------------
+            synchronized (KeyboardLogger.lock) {
+                if (this.keyboardLogger != null) {
+                    this.keyboardLogger.noteOff(note);
+                }
+            }
         } else if (event.getAction() == MotionEvent.ACTION_CANCEL) {
             WLog.d(this,"ACTION_CANCEL");
             //離したときの動作
             AudioController.noteOff(this.activeNoteKey);
+            //--------------------------------------------------------------------------------------
+            // キーボードロガーが設定されている場合は、記録する。
+            //--------------------------------------------------------------------------------------
+            synchronized (KeyboardLogger.lock) {
+                if (this.keyboardLogger != null) {
+                    this.keyboardLogger.noteOff(note);
+                }
+            }
         }
         return false;
     }
@@ -78,5 +104,24 @@ public class KeyboardKeyPresenter implements View.OnTouchListener {
     //------------------------------------------------------------------
     public int getViewId() {
         return viewId;
+    }
+    //----------------------------------------------------------------------------------------------
+    // 名称    ：キーボードロガー設定
+    // 処理概要：キーボードロガーを設定する(リアル録音用)
+    // 引数1   ：キーボードロガーのインスタンス
+    //----------------------------------------------------------------------------------------------
+    public void setKeyboardLogger(KeyboardLogger keyboardLogger) {
+        synchronized (KeyboardLogger.lock) {
+            this.keyboardLogger = keyboardLogger;
+        }
+    }
+    //----------------------------------------------------------------------------------------------
+    // 名称    ：キーボードロガー解除
+    // 処理概要：キーボードロガーの設定を解除する。
+    //----------------------------------------------------------------------------------------------
+    public void deleteKeyboardLogger() {
+        synchronized (KeyboardLogger.lock) {
+            this.keyboardLogger = null;
+        }
     }
 }

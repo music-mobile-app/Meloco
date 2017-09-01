@@ -23,6 +23,9 @@ public class ButtonRecPresenter implements View.OnClickListener {
     // 再生ボタンのプレゼンター
     private ButtonPlayPresenter buttonPlayPresenter = null;
 
+    // キーボードのプレゼンター
+    private KeyboardPresenter keyboardPresenter = null;
+
     // ボタンの状態
     private int buttonStatus = 1;
     //----------------------------------------------------------------------------------------------
@@ -36,9 +39,15 @@ public class ButtonRecPresenter implements View.OnClickListener {
     public static final int BUTTON_STATUS_NOT_AVAILABLE = 3;
 
     //----------------------------------------------------------------
-    // リスナー登録
+    // 名称    ：リスナー登録
+    // 処理概要：リスナー登録
+    // 引数1   ：呼び出し元のアクティビティー
+    // 引数2   ：プレイボタンのプレゼンター
+    // 引数3   ：キーボードのプレゼンター
     //----------------------------------------------------------------
-    public void setListner(Activity activity, ButtonPlayPresenter buttonPlayPresenter) {
+    public void setListner(Activity activity,
+                            ButtonPlayPresenter buttonPlayPresenter,
+                            KeyboardPresenter keyboardPresenter) {
 
         WLog.d(this, "setListner実行");
 
@@ -47,6 +56,9 @@ public class ButtonRecPresenter implements View.OnClickListener {
 
         // 再生ボタンのプレゼンターを保存
         this.buttonPlayPresenter = buttonPlayPresenter;
+
+        // キーボードのプレゼンターを保存
+        this.keyboardPresenter = keyboardPresenter;
 
         //ボタンのインスタンスを取得
         Button b = (Button)parentActivity.findViewById(R.id.buttonRec);
@@ -87,7 +99,7 @@ public class ButtonRecPresenter implements View.OnClickListener {
         this.buttonPlayPresenter.toNotAvailable();
 
         // レコーディングを開始する。
-        RecordingManager.startRecording();
+        RecordingManager.startRecording(this.keyboardPresenter);
 
     }
     //----------------------------------------------------------------

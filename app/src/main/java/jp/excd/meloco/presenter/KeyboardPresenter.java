@@ -9,6 +9,7 @@ import java.util.List;
 import jp.excd.meloco.activity.MainActivity;
 import jp.excd.meloco.R;
 import jp.excd.meloco.constant.KeyboardType;
+import jp.excd.meloco.recorder.KeyboardLogger;
 
 public class KeyboardPresenter {
 
@@ -344,9 +345,9 @@ public class KeyboardPresenter {
         this.keyboardKeyPresenters.add(keyboardKeyPresenter);
 
     }
-    //----------------------------------------------------------------
+    //----------------------------------------------------------------------------------------------
     // リスナー登録
-    //----------------------------------------------------------------
+    //----------------------------------------------------------------------------------------------
     public void setListner(MainActivity activity) {
         //各キーボードのインスタンスを取得して、リスナー登録していく。
         for (KeyboardKeyPresenter k : this.keyboardKeyPresenters) {
@@ -356,6 +357,27 @@ public class KeyboardPresenter {
             ImageButton ib = (ImageButton)activity.findViewById(viewId);
             //リスナー登録
             ib.setOnTouchListener((View.OnTouchListener)k);
+        }
+    }
+    //----------------------------------------------------------------------------------------------
+    // 名称    ：キーボードロガー設定
+    // 処理概要：キーボードロガーを設定する(リアル録音用)
+    // 引数1   ：キーボードロガーのインスタンス
+    //----------------------------------------------------------------------------------------------
+    public void setKeyboardLogger(KeyboardLogger keyboardLogger) {
+        //各キーボードのインスタンスを取得して、リスナー登録していく。
+        for (KeyboardKeyPresenter k : this.keyboardKeyPresenters) {
+            k.setKeyboardLogger(keyboardLogger);
+        }
+    }
+    //----------------------------------------------------------------------------------------------
+    // 名称    ：キーボードロガー解除
+    // 処理概要：キーボードロガーの設定を解除する。
+    //----------------------------------------------------------------------------------------------
+    public void deleteKeyboardLogger() {
+        //各キーボードのインスタンスを取得して、リスナー登録していく。
+        for (KeyboardKeyPresenter k : this.keyboardKeyPresenters) {
+            k.deleteKeyboardLogger();
         }
     }
 }

@@ -15,6 +15,6 @@ public class ClickLoopService extends Thread {
     public void run() {
         WLog.d("this", "run()");
         WLog.d("this", "クリック音を鳴らす。");
-        String noteNo = AudioController.noteOn(SoundSourceType.CLICK,"", 127);
+        String noteNo = AudioController.noteOn(SoundSourceType.CLICK,"", 64);
     }
 }
